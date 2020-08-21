@@ -1,0 +1,23 @@
+.input{
+  position: relative;
+  left : 40px;
+}
+
+input[type=text] {
+  font-size : 25px;
+  font-family: 'Trebuchet MS';
+  color : #2c3e50;
+  height : 100px;
+  width: 40%;
+  padding: 15px 22px;
+  margin: 20px 5px;
+  box-sizing: border-box;  
+}
+
+.create-note-button {
+  padding : 15px 32px;
+  text-align : center;
+  color : white;
+  background-color : red;
+  border-radius: 50%;
+}

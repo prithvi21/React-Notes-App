@@ -1,0 +1,9 @@
+.display {
+  display: inline-block;
+  font-family: Bahnschrift;
+  color : white;
+  background-color : #34495e;
+  /* padding : 20px; */
+  margin : 20px;
+  width : 20%;
+}
