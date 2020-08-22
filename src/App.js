@@ -13,13 +13,15 @@ class App extends React.Component {
     super(props);
     this.state = {
       notesList : [],
-      buttonClicked : false
+      buttonClicked : false,
+      show : false
     };
   }
 
   handleAdd = () => {
     this.setState({
-      buttonClicked : true
+      buttonClicked : true,
+      show : true
     })
     console.log('button clicked');
   }
@@ -31,9 +33,10 @@ class App extends React.Component {
      return;
    }
    this.setState({
-     notesList : this.state.notesList.concat(inputField.value)
+     notesList : this.state.notesList.concat(inputField.value),
+     show : false
    });
-   inputField.value = ''; 
+  //  inputField.value = ''; 
   }
 
   handleEdit = (note_id) => {
@@ -46,12 +49,11 @@ class App extends React.Component {
 
   handleDelete = (note_id) => {
     const id = 'display-' + note_id;
-    document.getElementById(id).style.display = 'none';
+    console.log(id);
 
     //delete the note and update state
     const newNotesList = this.state.notesList;
     newNotesList.splice(note_id,1);
-    console.log('after deletion:'+newNotesList.toString());
     this.setState({
       notesList : newNotesList
     })
@@ -81,7 +83,7 @@ class App extends React.Component {
         <div>
           <Header />
           <NewNote handleClick = {this.handleAdd}/>
-          <InputBox handleClick = {this.handleCreate} />
+          <InputBox handleClick = {this.handleCreate} show = {this.state.show} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
         </div>)
