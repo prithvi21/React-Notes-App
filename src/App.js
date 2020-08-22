@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      notesList : ['Default note'],
+      notesList : [],
       buttonClicked : false
     };
   }
@@ -30,28 +30,43 @@ class App extends React.Component {
      notesList : this.state.notesList.concat(inputField.value)
    });
    inputField.value = ''; 
-  //  document.getElementsByClassName("input")[0].style.visibility = "hidden";
   }
 
   handleEdit = (note_id) => {
     const id = 'note-' + note_id;
     const save_id = 'save-' + note_id;
     document.getElementById(id).contentEditable = 'true';
-    document.getElementById(save_id).style.display = 'initial';
+    document.getElementById(save_id).style.display = 'initial';//show save button once edit clicked
   }
 
 
   handleDelete = (note_id) => {
     const id = 'display-' + note_id;
-    console.log(note_id);
     document.getElementById(id).style.display = 'none';
+
+    //delete the note and update state
+    const newNotesList = this.state.notesList;
+    newNotesList.splice(note_id,1);
+    console.log('after deletion:'+newNotesList.toString());
+    this.setState({
+      notesList : newNotesList
+    })
   }
 
   saveAfterEdit = (note_id) => {
     const id = 'note-' + note_id;
     const save_id = 'save-' + note_id;
     document.getElementById(id).contentEditable = 'false';
-    document.getElementById(save_id).style.display = 'none';
+    document.getElementById(save_id).style.display = 'none';//hide save button after save clicked
+
+    //replacing the note with the edited note and updating state
+    const newNotesList = this.state.notesList;
+    const newNote = document.getElementById(id).textContent;
+    newNotesList.splice(note_id,note_id,newNote);
+    console.log('after edit:'+newNotesList.toString());
+    this.setState({
+      notesList : newNotesList
+    })
   }
 
   render(){
