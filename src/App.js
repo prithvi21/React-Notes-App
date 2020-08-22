@@ -12,7 +12,6 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      id  : 0,
       notesList : ['Default note'],
       buttonClicked : false
     };
@@ -40,10 +39,10 @@ class App extends React.Component {
   }
 
 
-  handleDelete = (id) => {
-    console.log(id);
-   //delete functionality
-   
+  handleDelete = (note_id) => {
+    const id = 'display-' + note_id;
+    console.log(note_id);
+    document.getElementById(id).style.display = 'none';
   }
 
   render(){
