@@ -4,7 +4,8 @@ import Header from './components/Header';
 import NewNote from './components/NewNote';
 import Display from './components/Display';
 import InputBox from './components/InputBox';
-import './css/InputBox.css'
+import Login from './components/Login';
+
 
 
 class App extends React.Component {
@@ -14,14 +15,14 @@ class App extends React.Component {
     this.state = {
       notesList : [],
       buttonClicked : false,
-      show : false
+      showInputBox : false
     };
   }
 
   handleAdd = () => {
     this.setState({
       buttonClicked : true,
-      show : true
+      showInputBox : true
     })
     console.log('button clicked');
   }
@@ -34,7 +35,7 @@ class App extends React.Component {
    }
    this.setState({
      notesList : this.state.notesList.concat(inputField.value),
-     show : false
+     showInputBox : false
    });
   //  inputField.value = ''; 
   }
@@ -77,18 +78,24 @@ class App extends React.Component {
     })
   }
 
+  handleLogin = () =>{
+    console.log('login clicked');
+  }
+
   render(){
     return (this.state.buttonClicked) 
       ?(
         <div>
           <Header />
+          <Login login = {this.handleLogin} />
           <NewNote handleClick = {this.handleAdd}/>
-          <InputBox handleClick = {this.handleCreate} show = {this.state.show} />
+          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
         </div>)
       : (<div>
           <Header />
+          <Login login = {this.handleLogin} />
           <NewNote handleClick = {this.handleAdd}/>
          </div>);  
      
