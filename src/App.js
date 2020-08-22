@@ -4,7 +4,7 @@ import Header from './components/Header';
 import NewNote from './components/NewNote';
 import Display from './components/Display';
 import InputBox from './components/InputBox';
-// import './css/InputBox.css'
+import './css/InputBox.css'
 
 
 class App extends React.Component {
@@ -24,8 +24,12 @@ class App extends React.Component {
     console.log('button clicked');
   }
 
-  handleCreate = () => {
+  handleCreate = (event) => {
    const inputField =  document.getElementById('inputNote');
+   if(inputField.value === ''){
+     event.preventDefault();
+     return;
+   }
    this.setState({
      notesList : this.state.notesList.concat(inputField.value)
    });
@@ -62,7 +66,9 @@ class App extends React.Component {
     //replacing the note with the edited note and updating state
     const newNotesList = this.state.notesList;
     const newNote = document.getElementById(id).textContent;
-    newNotesList.splice(note_id,note_id,newNote);
+    console.log(id);
+    console.log(newNote);
+    newNotesList.splice(note_id,1,newNote);
     console.log('after edit:'+newNotesList.toString());
     this.setState({
       notesList : newNotesList
