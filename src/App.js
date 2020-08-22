@@ -4,7 +4,7 @@ import Header from './components/Header';
 import NewNote from './components/NewNote';
 import Display from './components/Display';
 import InputBox from './components/InputBox';
-import './css/InputBox.css'
+// import './css/InputBox.css'
 
 
 class App extends React.Component {
@@ -26,20 +26,24 @@ class App extends React.Component {
   }
 
   handleCreate = () => {
-   const input_field =  document.getElementById('inputNote');
+   const inputField =  document.getElementById('inputNote');
    this.setState({
-     notesList : this.state.notesList.concat(input_field.value)
+     notesList : this.state.notesList.concat(inputField.value)
    });
-   input_field.value = ''; 
+   inputField.value = ''; 
   //  document.getElementsByClassName("input")[0].style.visibility = "hidden";
   }
 
-  handleEdit = () => {
-   //edit functionality
+  handleEdit = (note_id) => {
+    const id = 'note-' + note_id;
+    document.getElementById(id).contentEditable = 'true';
   }
 
-  handleDelete = () => {
+
+  handleDelete = (id) => {
+    console.log(id);
    //delete functionality
+   
   }
 
   render(){
