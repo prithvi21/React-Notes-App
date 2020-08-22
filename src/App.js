@@ -35,7 +35,9 @@ class App extends React.Component {
 
   handleEdit = (note_id) => {
     const id = 'note-' + note_id;
+    const save_id = 'save-' + note_id;
     document.getElementById(id).contentEditable = 'true';
+    document.getElementById(save_id).style.display = 'initial';
   }
 
 
@@ -43,6 +45,13 @@ class App extends React.Component {
     const id = 'display-' + note_id;
     console.log(note_id);
     document.getElementById(id).style.display = 'none';
+  }
+
+  saveAfterEdit = (note_id) => {
+    const id = 'note-' + note_id;
+    const save_id = 'save-' + note_id;
+    document.getElementById(id).contentEditable = 'false';
+    document.getElementById(save_id).style.display = 'none';
   }
 
   render(){
@@ -53,7 +62,7 @@ class App extends React.Component {
           <NewNote handleClick = {this.handleAdd}/>
           <InputBox handleClick = {this.handleCreate} />
           <Display notesList = {this.state.notesList}
-           edit = {this.handleEdit} delete = {this.handleDelete} />
+           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
         </div>)
       : (<div>
           <Header />
