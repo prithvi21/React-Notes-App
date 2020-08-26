@@ -1,0 +1,44 @@
+.login-popup {
+  background-color :#3b5999;
+  position : absolute;    
+  width    : 250px;
+  height   : 250px;
+  left     : 50%;
+  top      : 50%;
+  margin-left : -100px; /* half of the width  */
+  margin-top  : -100px; /* half of the height */
+}
+
+input[type=text] {
+  background-color : black;
+  color : white;
+  font-size : 15px;
+  font-family: 'Trebuchet MS';
+  width : 170px;
+  height : 30px;
+  box-sizing: border-box;  
+}
+
+.login-submit, .close-button {
+  /* margin : 10px; */
+  background-color : #e74c3c;
+  padding : 15px;
+  font-family : Franklin Gothic Medium;
+  font-size: 12px;
+  border: 2px solid black;
+}
+
+.close-button {
+  background-image: url('../images/close-img.png');
+  background-size : 100%;
+  position : absolute;
+  top : 0;
+  right: 0;
+}
+
+.login-popup input::-webkit-input-placeholder {
+  color: white !important;
+  font-family : Copperplate Gothic Light;
+}
+
+ 

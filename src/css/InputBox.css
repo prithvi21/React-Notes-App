@@ -1,13 +1,14 @@
-#input-box{
+.input-box{
   position: relative;
   left : 40px;
 }
 
-input[type=text] {
+input#inputNote[type="text"] {
+  background-color: black;
   font-size : 25px;
   font-family: 'Trebuchet MS';
-  color : #2c3e50;
-  height : 100px;
+  color :white;
+  height : 75px;
   width: 40%;
   padding: 15px 22px;
   margin: 20px 5px;
@@ -18,6 +19,11 @@ input[type=text] {
   padding : 15px 32px;
   text-align : center;
   color : white;
-  background-color : red;
-  border-radius: 50%;
+  background-color : blue;
+  border-color: white;
+}
+
+.input-box input::-webkit-input-placeholder {
+  color:white !important;
+  font-family : Copperplate Gothic Light;
 }

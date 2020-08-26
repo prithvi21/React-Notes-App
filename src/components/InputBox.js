@@ -10,7 +10,7 @@ export default class InputBox extends React.Component {
     onClick={this.props.handleClick}> Create Note </button>;
 
     return (this.props.show)
-     ? ( <span id="input-box">
+     ? ( <span className="input-box">
            {input}
            {submit}
          </span>)
