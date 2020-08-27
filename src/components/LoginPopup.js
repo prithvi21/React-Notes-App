@@ -4,7 +4,7 @@ import '../css/LoginPopup.css';
 export default class LoginPopup extends React.Component {
   render(){
     const username = <input type="text" placeholder="ENTER USERNAME"/>
-    const password = <input type="text" placeholder="ENTER PASSWORD"/>
+    const password = <input type="password" placeholder="ENTER PASSWORD"/>
     const loginButton = <button type="text" className="login-submit">LOGIN</button>;
     const closePopup = <button type="text" className="close-button"
      onClick={this.props.handlePopup}></button>;

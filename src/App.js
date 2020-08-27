@@ -34,11 +34,23 @@ class App extends React.Component {
      event.preventDefault();
      return;
    }
+   const noteData = inputField.value;
    this.setState({
-     notesList : this.state.notesList.concat(inputField.value),
+     notesList : this.state.notesList.concat(noteData),
      showInputBox : false
-   });
-  //  inputField.value = ''; 
+   },this.updateServer);
+  }
+
+  updateServer(){
+    const userID = 0;// 0 for now, will add user login later
+    const URL = 'http://localhost:8080/api/' + userID;
+    fetch(URL, {
+      method : 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body : JSON.stringify({
+        notes : this.state.notesList
+      })
+    }).then();
   }
 
   handleEdit = (noteID) => {
@@ -58,7 +70,7 @@ class App extends React.Component {
     newNotesList.splice(noteID,1);
     this.setState({
       notesList : newNotesList
-    })
+    },this.updateServer)
   }
 
   saveAfterEdit = (noteID) => {
@@ -76,7 +88,7 @@ class App extends React.Component {
     console.log('after edit:'+newNotesList.toString());
     this.setState({
       notesList : newNotesList
-    })
+    },this.updateServer)
   }
 
   handleLogin = () =>{

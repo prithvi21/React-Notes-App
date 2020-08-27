@@ -9,7 +9,7 @@
   margin-top  : -100px; /* half of the height */
 }
 
-input[type=text] {
+input[type=text] , input[type=password] {
   background-color : black;
   color : white;
   font-size : 15px;
@@ -18,6 +18,7 @@ input[type=text] {
   height : 30px;
   box-sizing: border-box;  
 }
+
 
 .login-submit, .close-button {
   /* margin : 10px; */
