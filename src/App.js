@@ -44,11 +44,12 @@ class App extends React.Component {
   updateServer(){
     const userID = 0;// 0 for now, will add user login later
     const URL = 'http://localhost:8080/api/' + userID;
+    const noteKey = 'Notes for ID:' + userID;
     fetch(URL, {
       method : 'POST',
       headers: {'Content-Type': 'application/json'},
       body : JSON.stringify({
-        notes : this.state.notesList
+        [noteKey] : this.state.notesList
       })
     }).then();
   }
