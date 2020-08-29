@@ -15,8 +15,17 @@ class App extends React.Component {
       notesList : [],
       buttonClicked : false,
       showInputBox : false,
-      showPopup : false
+      showPopup : false,
+      signup : false
     };
+  }
+
+  signup = () => {
+    document.getElementsByClassName('login-submit')[1].style.display = 'none';
+    document.getElementById('name').style.display = 'initial';
+    this.setState({
+      signup : true
+    });
   }
 
   handleAdd = () => {
@@ -113,7 +122,8 @@ class App extends React.Component {
         </div>)
       : (<div>
           <Header />
-          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin} />
+          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
+           signup = {this.signup} isSignup = {this.state.signup} />
           <Login login = {this.handleLogin} />
           <NewNote handleClick = {this.handleAdd}/>
          </div>);  
