@@ -50,6 +50,20 @@ class App extends React.Component {
    },this.updateServer);
   }
 
+  getUserID(){
+
+  }
+
+  getUsername = () => {
+    const URL = "http://localhost:8080/auth";
+    fetch(URL, {
+      method : 'GET',
+      credentials: 'include',
+      headers : {'Content-Type' : 'text/plain'}
+    }).then(res => res.text())
+      .then(body => console.log(body));
+  }
+
   updateServer(){
     const userID = 0;// 0 for now, will add user login later
     const URL = 'http://localhost:8080/api/' + userID;
@@ -122,6 +136,7 @@ class App extends React.Component {
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
         </div>)
       : (<div>
+           <button type="button" onClick={this.getUsername}>Get it</button>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} />
