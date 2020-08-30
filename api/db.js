@@ -1,6 +1,5 @@
 const mysql = require('mysql');
 
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -10,7 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+  // console.log("Connected!");
   con.query("CREATE DATABASE IF NOT EXISTS notesDB", function (err, result) {
     if (err) throw err;
     // console.log("Database created");
@@ -25,8 +24,7 @@ con.query(sql, function (err, result) {
   });
 
 
-function createUser(name, username, password){
-  // var sql = "INSERT INTO users (name,username,password) VALUES ?";
+function createUser(name, username, password) {
   var sql = "INSERT INTO users (name,username,password) VALUES (?, ?, ?)";
   var values = [name, username, password];
   con.query(sql, values, function (err, result) {
@@ -35,4 +33,19 @@ function createUser(name, username, password){
   });
 }
 
-module.exports = {createUser};
+
+function validateUser(username, password) {
+  var sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+  var values = [username, password];
+
+  return new Promise((resolve, reject) => {
+    con.query(sql,values, function(err, results) {
+      if (err) reject(err);
+
+      if (results.length > 0) resolve("true");
+      else reject("false");
+    }) 
+  });
+}
+
+module.exports = { createUser, validateUser };

@@ -6,6 +6,7 @@ const PORT = 8080 || process.env.port;
 const URL = "http://localhost:3000";
 const db = require('./db.js');
 var md5 = require('md5');
+const { validateUser } = require('./db.js');
 
 
 app.use(bodyParser.urlencoded({
@@ -29,11 +30,13 @@ app.post('/api/:id', function (req,res) {
   res.send(data);
 });
 
-//Handles Login
+//Handles Login authentication
 app.post('/auth', function(req,res) {
-  console.log('form submitted');
-  // data[1]= req.body.username;
-  // data[2] = req.body.password;
+  const username = req.body.username;
+  const password = req.body.password;
+  db.validateUser(username, password)
+  .then(value => console.log("login successful"))
+  .catch(error => console.log('incorrect'));
   res.status(200);
   res.redirect(URL);
 });
