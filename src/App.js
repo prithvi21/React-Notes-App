@@ -104,7 +104,8 @@ class App extends React.Component {
   handleLogin = () =>{
     console.log('login clicked');
     this.setState({
-      showPopup : ! this.state.showPopup
+      showPopup : ! this.state.showPopup,
+      signup : false
     })
   }
 
