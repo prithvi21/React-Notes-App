@@ -76,7 +76,10 @@ app.get('/auth', function(req,res){
   console.log(req.session.loggedIn);
   if(req.session.loggedIn){
     console.log(req.session.username);
-    res.json(req.session.username);
+    res.send(JSON.stringify({
+      username : req.session.username,
+      loggedIn : req.session.loggedIn
+    }));
   } 
   else {
     res.send('NOT AUTHENTICATED');

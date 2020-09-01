@@ -16,7 +16,9 @@ class App extends React.Component {
       buttonClicked : false,
       showInputBox : false,
       showPopup : false,
-      signup : false
+      signup : false,
+      loggedIn : false,
+      username : null
     };
   }
 
@@ -63,10 +65,17 @@ class App extends React.Component {
       headers: { 'Content-Type': 'text/plain'
      }
     });
-    const body = await res.text();
-    console.log(body);
-    return body;
+    let body = await res.text();
+    body = JSON.parse(body);
+    console.log(body.username);
+    console.log(body.loggedIn);
+    this.setState({
+      loggedIn : body.loggedIn,
+      username : body.username
+    })
+    // return body;
   }
+
 
   updateServer(){
     const userID = 0;// 0 for now, will add user login later
@@ -143,8 +152,9 @@ class App extends React.Component {
            <button type="button" onClick={this.getUsername}>Get it</button>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} />
-          <Login login = {this.handleLogin} />
+           signup = {this.signup} isSignup = {this.state.signup}/>
+          <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
+           username = {this.state.username}   />
           <NewNote handleClick = {this.handleAdd}/>
          </div>);  
      

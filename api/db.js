@@ -48,8 +48,20 @@ function validateUser(username, password) {
   });
 }
 
+function getIDFromUsername(username) {
+  var sql = "SELECT (id) FROM users WHERE username = ?";
+  var values = [username];
+  return new Promise((resolve, reject) => {
+    con.query(sql,values, function(err, results) {
+      if (err) reject(err);
+      if (results.length > 0) resolve(results);
+      else reject(null);
+    }) 
+  });
+}
 
 
 
 
-module.exports = { createUser, validateUser };
+
+module.exports = { createUser, validateUser, getIDFromUsername };
