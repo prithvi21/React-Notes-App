@@ -3,11 +3,13 @@ const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const PORT = 8080 || process.env.port;
-
+const cors = require('cors')
 const URL = "http://localhost:3000";
 const db = require('./db.js');
 var md5 = require('md5');
 
+// app.use(cors())
+// app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
 app.use(session({
 	secret: 'st',
@@ -24,15 +26,16 @@ app.use(bodyParser.json());
 
 var data=[];
 
-// app.use((req, res, next) => {
-//   // Check if we've already initialised a session
-//   if (!req.session.initialised) {
-//      // Initialise our variables on the session object (that's persisted across requests by the same user
-//      req.session.initialised = true;
-//      req.session.loggedIn = false;
-//   }
-//   next();
-// });
+app.use((req, res, next) => {
+  // Check if we've already initialised a session
+  if (!req.session.initialised) {
+     // Initialise our variables on the session object (that's persisted across requests by the same user
+     req.session.initialised = true;
+     req.session.loggedIn = false;
+     req.session.username = null;
+  }
+  next();
+});
 
 
 app.get('/',function (req,res) {
@@ -68,10 +71,12 @@ app.post('/auth', function(req,res) {
 });
 
 app.get('/auth', function(req,res){
+  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Credentials',true);
   console.log(req.session.loggedIn);
   if(req.session.loggedIn){
     console.log(req.session.username);
-    res.send('okay');
+    res.json(req.session.username);
   } 
   else {
     res.send('NOT AUTHENTICATED');

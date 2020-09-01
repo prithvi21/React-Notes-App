@@ -54,14 +54,18 @@ class App extends React.Component {
 
   }
 
-  getUsername = () => {
+  
+  getUsername = async () => {
     const URL = "http://localhost:8080/auth";
-    fetch(URL, {
-      method : 'GET',
+    const res = await fetch(URL, {
+      method: 'GET',
       credentials: 'include',
-      headers : {'Content-Type' : 'text/plain'}
-    }).then(res => res.text())
-      .then(body => console.log(body));
+      headers: { 'Content-Type': 'text/plain'
+     }
+    });
+    const body = await res.text();
+    console.log(body);
+    return body;
   }
 
   updateServer(){

@@ -26,6 +26,7 @@ export default class LoginPopup extends React.Component {
     return (this.props.showPopup) 
     ?(
       <div className="login-popup">
+        <iframe name="dummyframe" id="dummyframe" style={{display: 'none'}}></iframe>
         <form action={URL} method="POST">
         {name}  
         <br /><br />
