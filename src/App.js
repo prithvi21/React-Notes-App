@@ -86,15 +86,19 @@ class App extends React.Component {
      }
     });
     let body = await res.text();
+    console.log(res.status);
     console.log(body);
     body = JSON.parse(body);
     //if login successful
-    this.setState({
+    if(body.loggedIn) this.setState({
       loggedIn : body.loggedIn,
       username : body.username,
-      userID : body.userID,
+      userID :   body.userID,
       showPopup : false
     })
+    else {
+      alert('Wrong Username/Password');
+    }
     return body;
   }
 
@@ -165,20 +169,22 @@ class App extends React.Component {
       ?(
         <div>
           <Header />
-          <Login login = {this.handleLogin} />
-          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin} />
+          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
+           signup = {this.signup} isSignup = {this.state.signup} a = {this.sendLoginRequest}/>
+          <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
+           username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
           <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
+           <User loggedIn = {this.state.loggedIn} />
         </div>)
       : (<div>
-           {/* <button type="button" onClick={this.getUsername}>Get it</button> */}
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} a = {this.sendLoginRequest}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
-           username = {this.state.username}   />
+           username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
           <User loggedIn = {this.state.loggedIn} />
          </div>);  

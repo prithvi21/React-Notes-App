@@ -15,7 +15,9 @@ app.use(session({
 	secret: 'st',
 	resave: true,
   saveUninitialized: true,
-  duration : 30 * 60 * 10000
+  // cookie: {
+  //   maxAge: 30 * 24 * 60 * 60 * 1000
+  // }
 }));
 
 
@@ -69,9 +71,10 @@ app.post('/auth', function(req,res) {
     console.log('success');
     req.session.loggedIn = true;
     req.session.username = username;
-    // res.status(200);
+    res.status(200);
     // res.send('success');
     userData = JSON.stringify({
+      userID   : req.session.ID,
       username : req.session.username,
       loggedIn : req.session.loggedIn
     })
@@ -81,8 +84,13 @@ app.post('/auth', function(req,res) {
        console.log('incorrect password');
        req.session.loggedIn = false;
       //  res.status(400);
-      //  res.send('fail');
-       res.redirect(URL);
+       userData = JSON.stringify({
+        userID   : req.session.ID,
+        username : req.session.username,
+        loggedIn : req.session.loggedIn
+      })
+      res.send(userData);
+      //  res.redirect(URL);
   })
  
 });
