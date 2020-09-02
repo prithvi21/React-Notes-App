@@ -54,7 +54,7 @@ function getIDFromUsername(username) {
   return new Promise((resolve, reject) => {
     con.query(sql,values, function(err, results) {
       if (err) reject(err);
-      if (results.length > 0) resolve(results);
+      if (results.length > 0) resolve(results[0].id);
       else reject(null);
     }) 
   });

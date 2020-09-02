@@ -6,6 +6,7 @@ import Display from './components/Display';
 import InputBox from './components/InputBox';
 import Login from './components/Login';
 import LoginPopup from './components/LoginPopup';
+import User from './components/User';
 
 class App extends React.Component {
 
@@ -18,9 +19,32 @@ class App extends React.Component {
       showPopup : false,
       signup : false,
       loggedIn : false,
-      username : null
+      username : null,
+      userID : null
     };
   }
+
+  sendLoginRequest = async () => {
+    console.log('login request');
+     const URL = "http://localhost:8080/auth";
+     const res = await
+      fetch(URL, {
+      method: 'POST',
+      headers : {
+        'Content-type' : 'application/json'
+      },
+      body : JSON.stringify({
+        username : document.getElementsByName('username')[0].value,
+        password : document.getElementsByName('password')[0].value
+      }
+    )
+    });
+    let body = await res.text();
+    console.log(body);
+    this.getUsername();
+  }
+
+
 
   signup = () => {
     document.getElementsByClassName('login-submit')[1].style.display = 'none';
@@ -52,28 +76,26 @@ class App extends React.Component {
    },this.updateServer);
   }
 
-  getUserID(){
-
-  }
-
-  
   getUsername = async () => {
     const URL = "http://localhost:8080/auth";
     const res = await fetch(URL, {
       method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'text/plain'
+      // credentials: 'include',
+      headers: { 'Content-Type': 'text/plain',
+      'Accept': 'application/json'
      }
     });
     let body = await res.text();
+    console.log(body);
     body = JSON.parse(body);
-    console.log(body.username);
-    console.log(body.loggedIn);
+    //if login successful
     this.setState({
       loggedIn : body.loggedIn,
-      username : body.username
+      username : body.username,
+      userID : body.userID,
+      showPopup : false
     })
-    // return body;
+    return body;
   }
 
 
@@ -136,6 +158,8 @@ class App extends React.Component {
     })
   }
 
+  
+
   render(){
     return (this.state.buttonClicked) 
       ?(
@@ -149,13 +173,14 @@ class App extends React.Component {
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
         </div>)
       : (<div>
-           <button type="button" onClick={this.getUsername}>Get it</button>
+           {/* <button type="button" onClick={this.getUsername}>Get it</button> */}
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup}/>
+           signup = {this.signup} isSignup = {this.state.signup} a = {this.sendLoginRequest}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}   />
           <NewNote handleClick = {this.handleAdd}/>
+          <User loggedIn = {this.state.loggedIn} />
          </div>);  
      
   }

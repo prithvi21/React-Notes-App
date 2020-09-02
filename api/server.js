@@ -7,9 +7,9 @@ const cors = require('cors')
 const URL = "http://localhost:3000";
 const db = require('./db.js');
 var md5 = require('md5');
-
-// app.use(cors())
-// app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+var userData;
+app.use(cors());
+// app.use(cors({credentials: true,'Access-Control-Allow-Origin' : 'http://localhost:3000'}));
 
 app.use(session({
 	secret: 'st',
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-var data=[];
+var userData=[];
 
 app.use((req, res, next) => {
   // Check if we've already initialised a session
@@ -33,6 +33,7 @@ app.use((req, res, next) => {
      req.session.initialised = true;
      req.session.loggedIn = false;
      req.session.username = null;
+     req.session.ID = null;
   }
   next();
 });
@@ -43,47 +44,65 @@ app.get('/',function (req,res) {
 });
 
 app.get('/api/:id', function(req,res){
-  res.send(data[req.params.id]);
+  res.send(userData[req.params.id]);
 })
 
 // Handles creating/updating notes
 app.post('/api/:id', function (req,res) {
-  data[req.params.id] = req.body;
-  res.send(data);
+  userData[req.params.id] = req.body;
+  res.send(userData);
 });
 
 
 app.post('/auth', function(req,res) {
+  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
   const username = req.body.username;
   const password = md5(req.body.password);
+  db.getIDFromUsername(username).then(function(result){
+    console.log('get method:'+result);
+    req.session.ID = result;
+    console.log(req.session.ID);
+  },function(){
+    console.log('not ok');
+  });
   db.validateUser(username, password).then(function(){
     console.log('success');
     req.session.loggedIn = true;
     req.session.username = username;
-    res.status(200);
-    res.redirect(URL);
+    // res.status(200);
+    // res.send('success');
+    userData = JSON.stringify({
+      username : req.session.username,
+      loggedIn : req.session.loggedIn
+    })
+    res.send(userData);
+    // res.redirect(URL);
   }, function(){
        console.log('incorrect password');
        req.session.loggedIn = false;
-       res.status(400);
+      //  res.status(400);
+      //  res.send('fail');
        res.redirect(URL);
   })
+ 
 });
 
 app.get('/auth', function(req,res){
   res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Credentials',true);
-  console.log(req.session.loggedIn);
-  if(req.session.loggedIn){
-    console.log(req.session.username);
-    res.send(JSON.stringify({
-      username : req.session.username,
-      loggedIn : req.session.loggedIn
-    }));
-  } 
-  else {
-    res.send('NOT AUTHENTICATED');
-  }
+  // console.log(req.session.loggedIn);
+  // console.log(req.session.ID);
+  // if(req.session.loggedIn){
+  //   console.log(req.session.username);
+  //   res.send(JSON.stringify({
+  //     userID   : req.session.ID,
+  //     username : req.session.username,
+  //     loggedIn : req.session.loggedIn
+  //   }));
+  // } 
+  // else {
+  //   res.send('NOT AUTHENTICATED');
+  // }
+  res.send(userData);
 })
 
 //Handles new account creation
