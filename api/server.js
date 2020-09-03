@@ -55,21 +55,21 @@ app.get('/',function (req,res) {
 });
 
 app.get('/api/notes/:id', function(req,res){
-  // res.send(userNotesData[req.params.id]);
-  res.end();
+  res.send(userNotesData[req.params.id]);
+  // res.end();
 })
 
-// Handles creating/updating notes
+// Handles updating notes
 app.post('/api/notes/:id', function (req,res) {
   console.log('post request for note submission');
   const notes = req.body.notes;
   const notesArray = [];
   while(notes.length) notesArray.push(notes.splice(0,1));
-  console.log(req.body.notes);
+  console.log(notes);
   insertNotes(req.params.id, notesArray).then(function(result){
-    console.log(result);
-    // userNotesData[req.params.id].push(notesArray);
-    res.send(userNotesData);
+    // console.log(result);
+  userNotesData[req.params.id] = notesArray;
+  res.send(userNotesData);
   }).catch(function(result){
     console.log(result);
     res.send('error');
