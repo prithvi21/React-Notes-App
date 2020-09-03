@@ -109,21 +109,32 @@ async function createUserTable(){
 /**
  *  @param (array) notes.
  **/
-function insertNotes(userID, notesArray){
+function insertNotes(userID, notesArray) {
   var sql = "TRUNCATE TABLE ??;INSERT INTO ?? (note) VALUES ?;";
   console.log(userID);
   var tableName = [`user_${userID}`];
   return new Promise((resolve, reject) => {
-    con.query(sql, [tableName,tableName, notesArray], function(err, result){
+    con.query(sql, [tableName, tableName, notesArray], function(err, result){
       if(err) reject(err);
       else resolve(true);
     })
-  
   });
 }
 
+function sendNotesToClient(userID) {
+  var sql = "SELECT note FROM ??";
+  var tableName = [`user_${userID}`];
+  return new Promise((resolve, reject) => {
+    con.query(sql, tableName, function(err, result){
+      if(err) reject(err);
+      // else resolve(JSON.parse(JSON.stringify(result)));
+      else resolve(JSON.stringify(result));
+    })
+  });
+}
+
+// sendNotesToClient(1).then(res => console.log(res)).catch(err => console.log(err));
 
 
 
-
-module.exports = { createUser, validateUser, getIDFromUsername, createUserTable , insertNotes};
+module.exports = { createUser, validateUser, getIDFromUsername, createUserTable , insertNotes, sendNotesToClient};

@@ -79,6 +79,16 @@ app.post('/api/notes/:id', function (req,res) {
 });
 
 
+//Sends notes for display when user logs in
+app.get('/notes/:id', function(req,res) {
+  db.sendNotesToClient(req.params.id).then(function(notes){
+    res.send(notes);
+  }).catch(function() {
+    res.send('ERROR');
+  })
+})
+
+
 app.post('/auth', function(req,res) {
   const username = req.body.username;
   const password = md5(req.body.password);

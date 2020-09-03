@@ -98,7 +98,7 @@ class App extends React.Component {
     this.setState({
       notesList : this.state.notesList.concat(noteData),
       showInputBox : false
-    },this.updateServer);
+    },this.updateDatabase);
   } else {
     this.setState({
       notesList : this.state.notesList.concat(noteData),
@@ -130,13 +130,14 @@ class App extends React.Component {
     else {
       alert('Wrong Username/Password');
     }
-    return body;
+    this.getNotes();
+    // return body;
   }
 
 
-  updateServer = async () => {
+  updateDatabase = async () => {
     const userID = this.state.userID;
-    const URL = 'http://localhost:8080/api/notes/' + userID;
+    const URL = `http://localhost:8080/api/notes/${userID}`;
     // const noteKey = 'Notes for ID:' + userID;
     const res = await fetch(URL, {
       method : 'POST',
@@ -169,7 +170,7 @@ class App extends React.Component {
     if (this.state.loggedIn) {
       this.setState({
         notesList : newNotesList
-      }, this.updateServer)
+      }, this.updateDatabase)
     } else {
         this.setState({
           notesList : newNotesList
@@ -193,7 +194,7 @@ class App extends React.Component {
     if (this.state.loggedIn) {
       this.setState({
         notesList : newNotesList
-      }, this.updateServer)
+      }, this.updateDatabase)
     } else {
         this.setState({
           notesList : newNotesList
@@ -218,8 +219,30 @@ class App extends React.Component {
      this.setState({
       loggedIn : false,
       username : null,
-      userID   : null
+      userID   : null,
+      notesList : []
     });
+  }
+
+  getNotes = async () => {
+    console.log('func');
+    const userID = this.state.userID;
+    // const userID = 1;
+    const URL = `http://localhost:8080/notes/${userID}`;
+    const res = await fetch(URL, {
+      method: 'GET',
+      headers: { 'Content-Type': 'text/plain',
+      'Accept': 'application/json'
+     }
+    })
+    const body = await res.json();
+    var newNotesList = [];
+    for(let i=0;i<body.length;i++){
+      newNotesList.push(body[i].note);
+    }
+    this.setState({
+      notesList : newNotesList
+    })
   }
 
   
@@ -246,6 +269,8 @@ class App extends React.Component {
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
+          <Display notesList = {this.state.notesList}
+           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
          </div>);  
      
