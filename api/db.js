@@ -4,7 +4,8 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "root",
-  database : "notesDB"
+  database : "notesDB",
+  multipleStatements : true
 });
 
 con.connect(function(err) {
@@ -109,18 +110,13 @@ async function createUserTable(){
  *  @param (array) notes.
  **/
 function insertNotes(userID, notesArray){
-  var sql = "INSERT INTO ?? (note) VALUES ?";
+  var sql = "TRUNCATE TABLE ??;INSERT INTO ?? (note) VALUES ?;";
   console.log(userID);
   var tableName = [`user_${userID}`];
   return new Promise((resolve, reject) => {
-    con.query(sql, [tableName, notesArray], function(err, result){
-      console.log(result.affectedRows);
+    con.query(sql, [tableName,tableName, notesArray], function(err, result){
       if(err) reject(err);
-      if(result.affectedRows > 0){
-        console.log(result.affectedRows + " record(s) updated");
-        resolve(true);
-      }
-      else reject(false);
+      else resolve(true);
     })
   
   });

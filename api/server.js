@@ -65,10 +65,10 @@ app.post('/api/notes/:id', function (req,res) {
   const notes = req.body.notes;
   const notesArray = [];
   while(notes.length) notesArray.push(notes.splice(0,1));
-  console.log(notes);
   insertNotes(req.params.id, notesArray).then(function(result){
     // console.log(result);
   userNotesData[req.params.id] = notesArray;
+  console.log(userNotesData[req.params.id]);
   res.send(userNotesData);
   }).catch(function(result){
     console.log(result);
