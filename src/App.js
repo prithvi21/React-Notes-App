@@ -14,11 +14,11 @@ class App extends React.Component {
     super(props);
     this.state = {
       notesList : [],
-      buttonClicked : false,
+      addNoteClicked : false,
       showInputBox : false,
       showPopup : false,
       signup : false,
-      loggedIn : false,
+      loggedIn : true,
       username : null,
       userID : null
     };
@@ -56,7 +56,7 @@ class App extends React.Component {
 
   handleAdd = () => {
     this.setState({
-      buttonClicked : true,
+      addNoteClicked : true,
       showInputBox : true
     })
     console.log('button clicked');
@@ -154,7 +154,7 @@ class App extends React.Component {
     },this.updateServer)
   }
 
-  handleLogin = () =>{
+  handleLogin = () => {
     console.log('login clicked');
     this.setState({
       showPopup : ! this.state.showPopup,
@@ -162,10 +162,23 @@ class App extends React.Component {
     })
   }
 
+  handleLogout = async () => {
+    const URL = 'http://localhost:8080/logout';
+    const res = await fetch(URL, {
+      method : 'POST'
+    });
+    if(res.status === 200)
+     this.setState({
+      loggedIn : false,
+      username : null,
+      userID   : null
+    });
+  }
+
   
 
   render(){
-    return (this.state.buttonClicked) 
+    return (this.state.addNoteClicked) 
       ?(
         <div>
           <Header />
@@ -177,7 +190,7 @@ class App extends React.Component {
           <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
-           <User loggedIn = {this.state.loggedIn} />
+           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
         </div>)
       : (<div>
           <Header />
@@ -186,7 +199,7 @@ class App extends React.Component {
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
-          <User loggedIn = {this.state.loggedIn} />
+          <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
          </div>);  
      
   }

@@ -95,22 +95,15 @@ app.post('/auth', function(req,res) {
  
 });
 
-app.get('/auth', function(req,res){
+app.get('/auth', function(req, res) {
   res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
-  // console.log(req.session.loggedIn);
-  // console.log(req.session.ID);
-  // if(req.session.loggedIn){
-  //   console.log(req.session.username);
-  //   res.send(JSON.stringify({
-  //     userID   : req.session.ID,
-  //     username : req.session.username,
-  //     loggedIn : req.session.loggedIn
-  //   }));
-  // } 
-  // else {
-  //   res.send('NOT AUTHENTICATED');
-  // }
   res.send(userData);
+})
+
+app.post('/logout', function(req, res) {
+  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
+  req.session.destroy();
+  res.status(200).send();
 })
 
 //Handles new account creation

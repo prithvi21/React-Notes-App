@@ -60,6 +60,18 @@ function getIDFromUsername(username) {
   });
 }
 
+/** Create a table for each user storing their notes */
+function createUserTable(userID){
+  //for loop for all id's
+  var sql = "CREATE TABLE IF NOT EXISTS ? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255)";
+  var values = 'user_' + userID;
+  con.query(sql, [values], function (err, result) {
+  if (err) throw err;
+  // console.log("Table created");
+  });
+
+}
+
 
 
 
