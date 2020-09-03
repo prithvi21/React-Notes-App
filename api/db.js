@@ -27,9 +27,15 @@ con.query(sql, function (err, result) {
 function createUser(name, username, password) {
   var sql = "INSERT INTO users (name,username,password) VALUES (?, ?, ?)";
   var values = [name, username, password];
-  con.query(sql, values, function (err, result) {
-    if (err) throw err;
-    console.log('inserted');
+  return new Promise((resolve,reject) => {
+    con.query(sql, values, function (err, result) {
+    if (err) reject(err);
+    if(result.affectedRows > 0) {
+      console.log(result.affectedRows + " record(s) updated");
+      resolve(true);
+    }
+    else resolve(false);
+    });  
   });
 }
 
@@ -89,16 +95,16 @@ async function createUserTable(){
     var values = ['user_' + i];
     con.query(sql, values, function (err, result) {
       if (err) throw err;
-      console.log(`Table user_${i} created`);
+      // console.log(`Table user_${i} created`);
     });
   }
 
 }
 
-createUserTable();
+// createUserTable();
 
 
 
 
 
-module.exports = { createUser, validateUser, getIDFromUsername };
+module.exports = { createUser, validateUser, getIDFromUsername, createUserTable };

@@ -111,9 +111,21 @@ app.post('/logout', function(req, res) {
 
 //Handles new account creation
 app.post('/create', function(req,res) {
-  db.createUser(req.body.name,req.body.username,md5(req.body.password));
-  res.status(200);
-  res.redirect(URL);
+  db.createUser(req.body.name,req.body.username,md5(req.body.password))
+  .then(function(){
+    console.log('OK');
+  }).catch(function(){
+    console.log('NOT OK');
+  });
+  db.createUserTable().then(function(){
+    res.status(200);
+    res.send('created');
+  }).catch(function(){
+    res.status(200);
+    res.send('not created');
+  })
+  // res.status(200);
+  // res.redirect(URL);
 });
 
 app.listen(PORT);

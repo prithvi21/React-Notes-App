@@ -18,30 +18,54 @@ class App extends React.Component {
       showInputBox : false,
       showPopup : false,
       signup : false,
-      loggedIn : true,
+      loggedIn : false,
       username : null,
       userID : null
     };
   }
 
-  sendLoginRequest = async () => {
-    console.log('login request');
-     const URL = "http://localhost:8080/auth";
-     const res = await
-      fetch(URL, {
-      method: 'POST',
+  createUserRequest = async () => {
+    const URL = "http://localhost:8080/create";
+    const res = await fetch(URL, {
+      method : 'POST',
       headers : {
         'Content-type' : 'application/json'
       },
       body : JSON.stringify({
+        name     : document.getElementsByName('name')[0].value,
         username : document.getElementsByName('username')[0].value,
         password : document.getElementsByName('password')[0].value
-      }
-    )
+      })
     });
-    let body = await res.text();
+    const body = await res.text();
     console.log(body);
-    this.getUsername();
+    this.setState({
+      showPopup : false
+    })
+}
+
+  loginRequest = async () => {
+    if (!this.state.signup) {
+      console.log('login request');
+      const URL = "http://localhost:8080/auth";
+      const res = await
+      fetch(URL, {
+        method: 'POST',
+        headers : {
+          'Content-type' : 'application/json'
+        },
+        body : JSON.stringify({
+          username : document.getElementsByName('username')[0].value,
+          password : document.getElementsByName('password')[0].value
+        }
+      )
+      });
+      let body = await res.text();
+      console.log(body);
+      this.getUsername();
+    } else {
+        this.createUserRequest();
+    }
   }
 
 
@@ -183,7 +207,7 @@ class App extends React.Component {
         <div>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} a = {this.sendLoginRequest}/>
+           signup = {this.signup} isSignup = {this.state.signup} a = {this.loginRequest}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
@@ -195,7 +219,7 @@ class App extends React.Component {
       : (<div>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} a = {this.sendLoginRequest}/>
+           signup = {this.signup} isSignup = {this.state.signup} a = {this.loginRequest}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
