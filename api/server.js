@@ -4,16 +4,19 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const PORT = 8080 || process.env.port;
 const cors = require('cors')
-const URL = "http://localhost:3000";
+const clientURL = "http://localhost:3000";
 const db = require('./db.js');
 var md5 = require('md5');
+const { insertNotes } = require('./db.js');
+
 var userData;
+var userNotesData = [];
 app.use(cors());
 // app.use(cors({credentials: true,'Access-Control-Allow-Origin' : 'http://localhost:3000'}));
 
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Origin',clientURL);
   next();
 });
 
@@ -51,14 +54,28 @@ app.get('/',function (req,res) {
   res.status(200).send();
 });
 
-app.get('/api/:id', function(req,res){
-  res.send(userData[req.params.id]);
+app.get('/api/notes/:id', function(req,res){
+  // res.send(userNotesData[req.params.id]);
+  res.end();
 })
 
 // Handles creating/updating notes
-app.post('/api/:id', function (req,res) {
-  userData[req.params.id] = req.body;
-  res.send(userData);
+app.post('/api/notes/:id', function (req,res) {
+  console.log('post request for note submission');
+  const notes = req.body.notes;
+  const notesArray = [];
+  while(notes.length) notesArray.push(notes.splice(0,1));
+  console.log(req.body.notes);
+  insertNotes(req.params.id, notesArray).then(function(result){
+    console.log(result);
+    // userNotesData[req.params.id].push(notesArray);
+    res.send(userNotesData);
+  }).catch(function(result){
+    console.log(result);
+    res.send('error');
+  })
+  // userNotesData[req.params.id] = req.body;
+  // res.send(userNotesData);
 });
 
 
@@ -123,9 +140,7 @@ app.post('/create', function(req,res) {
   }).catch(function(){
     res.status(200);
     res.send('not created');
-  })
-  // res.status(200);
-  // res.redirect(URL);
+  });
 });
 
 app.listen(PORT);

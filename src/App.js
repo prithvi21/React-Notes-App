@@ -94,10 +94,17 @@ class App extends React.Component {
      return;
    }
    const noteData = inputField.value;
-   this.setState({
-     notesList : this.state.notesList.concat(noteData),
-     showInputBox : false
-   },this.updateServer);
+   if(this.state.loggedIn){
+    this.setState({
+      notesList : this.state.notesList.concat(noteData),
+      showInputBox : false
+    },this.updateServer);
+  } else {
+    this.setState({
+      notesList : this.state.notesList.concat(noteData),
+      showInputBox : false
+    });
+  }
   }
 
   getUsername = async () => {
@@ -127,17 +134,20 @@ class App extends React.Component {
   }
 
 
-  updateServer(){
-    const userID = 0;// 0 for now, will add user login later
-    const URL = 'http://localhost:8080/api/' + userID;
-    const noteKey = 'Notes for ID:' + userID;
-    fetch(URL, {
+  updateServer = async () => {
+    const userID = this.state.userID;
+    const URL = 'http://localhost:8080/api/notes/' + userID;
+    // const noteKey = 'Notes for ID:' + userID;
+    const res = await fetch(URL, {
       method : 'POST',
       headers: {'Content-Type': 'application/json'},
       body : JSON.stringify({
-        [noteKey] : this.state.notesList
+        notes : this.state.notesList
       })
-    }).then();
+    });
+    let body = await res.text();
+    console.log(body);
+
   }
 
   handleEdit = (noteID) => {
@@ -155,9 +165,16 @@ class App extends React.Component {
     //delete the note and update state
     const newNotesList = this.state.notesList;
     newNotesList.splice(noteID,1);
-    this.setState({
-      notesList : newNotesList
-    },this.updateServer)
+
+    if (this.state.loggedIn) {
+      this.setState({
+        notesList : newNotesList
+      }, this.updateServer)
+    } else {
+        this.setState({
+          notesList : newNotesList
+        });
+      }
   }
 
   saveAfterEdit = (noteID) => {
@@ -173,9 +190,15 @@ class App extends React.Component {
     console.log(newNote);
     newNotesList.splice(noteID,1,newNote);
     console.log('after edit:'+newNotesList.toString());
-    this.setState({
-      notesList : newNotesList
-    },this.updateServer)
+    if (this.state.loggedIn) {
+      this.setState({
+        notesList : newNotesList
+      }, this.updateServer)
+    } else {
+        this.setState({
+          notesList : newNotesList
+        });
+      }
   }
 
   handleLogin = () => {
