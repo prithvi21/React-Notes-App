@@ -79,22 +79,23 @@ function numberOfUsers() {
 
 
 /** Create a table for each user storing their notes **/
-async function createUserTable(userID){
+async function createUserTable(){
   console.log('start');
-  const numOfIDs = await numberOfUsers().then(res => {return res});
+  const numOfIDs = await numberOfUsers().then(res => {return res}).catch(err => {return err});
   console.log(numOfIDs);
   console.log('end');
-  //for loop for all id's
-  // var sql = "CREATE TABLE IF NOT EXISTS ? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255)";
-  // var values = 'user_' + userID;
-  // con.query(sql, [values], function (err, result) {
-  // if (err) throw err;
-  // // console.log("Table created");
-  // });
+  for(let i = 1; i <= numOfIDs; i++) {
+    var sql = "CREATE TABLE IF NOT EXISTS ?? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255))";
+    var values = ['user_' + i];
+    con.query(sql, values, function (err, result) {
+      if (err) throw err;
+      console.log(`Table user_${i} created`);
+    });
+  }
 
 }
 
-createUserTable(0);
+createUserTable();
 
 
 
