@@ -11,6 +11,12 @@ var userData;
 app.use(cors());
 // app.use(cors({credentials: true,'Access-Control-Allow-Origin' : 'http://localhost:3000'}));
 
+// a middleware with no mount path; gets executed for every request to the app
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
+  next();
+});
+
 app.use(session({
 	secret: 'st',
 	resave: true,
@@ -57,7 +63,6 @@ app.post('/api/:id', function (req,res) {
 
 
 app.post('/auth', function(req,res) {
-  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
   const username = req.body.username;
   const password = md5(req.body.password);
   db.getIDFromUsername(username).then(function(result){
@@ -96,14 +101,12 @@ app.post('/auth', function(req,res) {
 });
 
 app.get('/auth', function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
   res.send(userData);
 })
 
 app.post('/logout', function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin','http://localhost:3000');
   req.session.destroy();
-  res.status(200).send();
+  res.status(200).send('Logout Successful');
 })
 
 //Handles new account creation

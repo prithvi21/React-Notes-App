@@ -60,17 +60,41 @@ function getIDFromUsername(username) {
   });
 }
 
-/** Create a table for each user storing their notes */
-function createUserTable(userID){
+function numberOfUsers() {
+  var sql = "SELECT COUNT(*) FROM users";
+  return new Promise((resolve,reject) => {
+    con.query(sql, function(err,results) {
+      if (err) reject(err);
+      if (results.length > 0) {
+        const res = JSON.parse(JSON.stringify(results[0]))
+        resolve(res[ 'COUNT(*)' ]);
+      }
+    })
+  }) 
+}
+
+
+// numberOfUsers().then(res => console.log(res));
+
+
+
+/** Create a table for each user storing their notes **/
+async function createUserTable(userID){
+  console.log('start');
+  const numOfIDs = await numberOfUsers().then(res => {return res});
+  console.log(numOfIDs);
+  console.log('end');
   //for loop for all id's
-  var sql = "CREATE TABLE IF NOT EXISTS ? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255)";
-  var values = 'user_' + userID;
-  con.query(sql, [values], function (err, result) {
-  if (err) throw err;
-  // console.log("Table created");
-  });
+  // var sql = "CREATE TABLE IF NOT EXISTS ? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255)";
+  // var values = 'user_' + userID;
+  // con.query(sql, [values], function (err, result) {
+  // if (err) throw err;
+  // // console.log("Table created");
+  // });
 
 }
+
+createUserTable(0);
 
 
 
