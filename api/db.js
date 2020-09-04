@@ -18,14 +18,10 @@ var con = mysql.createConnection({
   multipleStatements : true
 });
 
-// con.connect(function(err) {
-//   if (err) throw err;
-//   // console.log("Connected!");
-//   con.query("CREATE DATABASE IF NOT EXISTS notesDB", function (err, result) {
-//     if (err) throw err;
-//     // console.log("Database created");
-//   });
-// });
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
 
 var sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), username VARCHAR(255), password VARCHAR(255))";
