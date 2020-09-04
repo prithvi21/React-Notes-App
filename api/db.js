@@ -18,10 +18,10 @@ var con = mysql.createPool({
   multipleStatements : true
 });
 
-// con.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected!");
-// });
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
 
 
