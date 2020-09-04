@@ -68,13 +68,13 @@ con.getConnection(function(err) {
 
 
 
+console.log('reached line 71');
 
-
-var sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), username VARCHAR(255), password VARCHAR(255))";
-con.query(sql, function (err, result) {
-  if (err) throw err;
-  // console.log("Table created");
-  });
+// var sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), username VARCHAR(255), password VARCHAR(255))";
+// con.query(sql, function (err, result) {
+//   if (err) throw err;
+//   // console.log("Table created");
+//   });
 
 
 function createUser(name, username, password) {
