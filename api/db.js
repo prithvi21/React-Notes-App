@@ -18,7 +18,7 @@ var con = mysql.createPool({
   multipleStatements : true
 });
 
-con.connect(function(err) {
+con.getConnection(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
