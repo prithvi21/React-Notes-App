@@ -25,8 +25,8 @@ class App extends React.Component {
   }
 
   createUserRequest = async () => {
-    const URL = "http://localhost:8080/create";
-    const res = await fetch(URL, {
+    const endpoint = "/create";
+    const res = await fetch(endpoint, {
       method : 'POST',
       headers : {
         'Content-type' : 'application/json'
@@ -47,9 +47,9 @@ class App extends React.Component {
   loginRequest = async () => {
     if (!this.state.signup) {
       console.log('login request');
-      const URL = "http://localhost:8080/auth";
+      const endpoint = "/auth";
       const res = await
-      fetch(URL, {
+      fetch(endpoint, {
         method: 'POST',
         headers : {
           'Content-type' : 'application/json'
@@ -108,8 +108,8 @@ class App extends React.Component {
   }
 
   getUsername = async () => {
-    const URL = "http://localhost:8080/auth";
-    const res = await fetch(URL, {
+    const endpoint = "/auth";
+    const res = await fetch(endpoint, {
       method: 'GET',
       // credentials: 'include',
       headers: { 'Content-Type': 'text/plain',
@@ -137,9 +137,9 @@ class App extends React.Component {
 
   updateDatabase = async () => {
     const userID = this.state.userID;
-    const URL = `http://localhost:8080/api/notes/${userID}`;
+    const endpoint = `/api/notes/${userID}`;
     // const noteKey = 'Notes for ID:' + userID;
-    const res = await fetch(URL, {
+    const res = await fetch(endpoint, {
       method : 'POST',
       headers: {'Content-Type': 'application/json'},
       body : JSON.stringify({
@@ -211,8 +211,8 @@ class App extends React.Component {
   }
 
   handleLogout = async () => {
-    const URL = 'http://localhost:8080/logout';
-    const res = await fetch(URL, {
+    const endpoint = '/logout';
+    const res = await fetch(endpoint, {
       method : 'POST'
     });
     if(res.status === 200)
@@ -228,8 +228,8 @@ class App extends React.Component {
     console.log('func');
     const userID = this.state.userID;
     // const userID = 1;
-    const URL = `http://localhost:8080/notes/${userID}`;
-    const res = await fetch(URL, {
+    const endpoint = `/notes/${userID}`;
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: { 'Content-Type': 'text/plain',
       'Accept': 'application/json'

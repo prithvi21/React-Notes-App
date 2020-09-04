@@ -2,12 +2,15 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const PORT = 8080 || process.env.port;
-const cors = require('cors')
-const clientURL = "http://localhost:3000";
+const PORT = 5000 || process.env.port;
+const cors = require('cors');
+const path = require('path');
+const clientURL = "http://localhost:5000";
 const db = require('./db.js');
 var md5 = require('md5');
 const { insertNotes } = require('./db.js');
+
+app.use(express.static(path.join(__dirname, '../build')));
 
 var userData;
 var userNotesData = [];
@@ -18,6 +21,11 @@ app.use(cors());
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin',clientURL);
   next();
+});
+
+app.get('/', function(req,res) {
+  // res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.use(session({
@@ -74,8 +82,6 @@ app.post('/api/notes/:id', function (req,res) {
     console.log(result);
     res.send('error');
   })
-  // userNotesData[req.params.id] = req.body;
-  // res.send(userNotesData);
 });
 
 

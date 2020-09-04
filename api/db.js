@@ -112,7 +112,7 @@ async function createUserTable(){
 function insertNotes(userID, notesArray) {
   var sql = "TRUNCATE TABLE ??;INSERT INTO ?? (note) VALUES ?;";
   console.log(userID);
-  var tableName = [`user_${userID}`];
+  var tableName = ['user_' + userID];
   return new Promise((resolve, reject) => {
     con.query(sql, [tableName, tableName, notesArray], function(err, result){
       if(err) reject(err);
