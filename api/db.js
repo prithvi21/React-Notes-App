@@ -1,10 +1,20 @@
 const mysql = require('mysql');
 
+
+/** CLEARDB_MAROON_URL = "mysql://bbf3ad21c5ef87:4483e0cf@eu-cdbr-west-03.cleardb.net/heroku_6d429a82e99620d?reconnect=true" **/
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "root",
+//   database : "notesDB",
+//   multipleStatements : true
+// });
+
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database : "notesDB",
+  host : "eu-cdbr-west-03.cleardb.net",
+  user : "bbf3ad21c5ef87",
+  password : "4483e0cf",
+  database : "heroku_6d429a82e99620d",
   multipleStatements : true
 });
 
