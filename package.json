@@ -19,7 +19,8 @@
   "scripts": {
     "start": "react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "node api/server.js" 
   },
   "eslintConfig": {
     "extends": "react-app"
