@@ -17,9 +17,7 @@
   },
   "proxy" : "https://reactnote-app.herokuapp.com",
   "scripts": {
-    "start": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node api/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
