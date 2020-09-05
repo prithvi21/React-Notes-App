@@ -22,7 +22,7 @@ app.use(cors());
 
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin',clientURL);
+  res.setHeader('Access-Control-Allow-Origin', clientURL);
   next();
 });
 
