@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const PORT = process.env.port || 5000;
+const PORT = process.env.port || 80;
 const cors = require('cors');
 const path = require('path');
 // const clientURL = "https://reactnote-app.herokuapp.com";
-const clientURL ="http://localhost:3000";
+const clientURL ="http://localhost:5000/";
 const db = require('./db.js');
 var md5 = require('md5');
 
