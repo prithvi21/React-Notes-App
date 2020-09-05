@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   createUserRequest = async () => {
-    const endpoint = "/create";
+    const endpoint = "https://reactnote-app.herokuapp.com/create";
     const res = await fetch(endpoint, {
       method : 'POST',
       headers : {
@@ -47,7 +47,7 @@ class App extends React.Component {
   loginRequest = async () => {
     if (!this.state.signup) {
       console.log('login request');
-      const endpoint = "/auth";
+      const endpoint = "https://reactnote-app.herokuapp.com/auth"
       const res = await
       fetch(endpoint, {
         method: 'POST',
@@ -108,7 +108,7 @@ class App extends React.Component {
   }
 
   getUsername = async () => {
-    const endpoint = "/auth";
+    const endpoint = "https://reactnote-app.herokuapp.com/auth";
     const res = await fetch(endpoint, {
       method: 'GET',
       // credentials: 'include',
@@ -137,7 +137,7 @@ class App extends React.Component {
 
   updateDatabase = async () => {
     const userID = this.state.userID;
-    const endpoint = `/api/notes/${userID}`;
+    const endpoint = `https://reactnote-app.herokuapp.com/api/notes/${userID}`;
     // const noteKey = 'Notes for ID:' + userID;
     const res = await fetch(endpoint, {
       method : 'POST',
@@ -211,7 +211,7 @@ class App extends React.Component {
   }
 
   handleLogout = async () => {
-    const endpoint = '/logout';
+    const endpoint = 'https://reactnote-app.herokuapp.com/logout';
     const res = await fetch(endpoint, {
       method : 'POST'
     });
@@ -228,7 +228,7 @@ class App extends React.Component {
     console.log('func');
     const userID = this.state.userID;
     // const userID = 1;
-    const endpoint = `/notes/${userID}`;
+    const endpoint = `https://reactnote-app.herokuapp.com/notes/${userID}`;
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: { 'Content-Type': 'text/plain',
