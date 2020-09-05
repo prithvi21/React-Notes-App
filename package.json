@@ -17,8 +17,7 @@
   },
   "proxy" : "http://localhost:3000",
   "scripts": {
-    "start": "node server.js",
-    "build" : "node server.js"
+    "start": "node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
