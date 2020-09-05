@@ -15,7 +15,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3"
   },
-  "proxy" : "http://localhost:5000",
+  "proxy" : "https://reactnote-app.herokuapp.com",
   "scripts": {
     "start": "node api/server.js"
   },
