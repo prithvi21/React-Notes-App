@@ -19,10 +19,10 @@ app.use(cors());
 // app.use(cors({credentials: true,'Access-Control-Allow-Origin' : 'http://localhost:3000'}));
 
 // a middleware with no mount path; gets executed for every request to the app
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin',clientURL);
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin',clientURL);
+//   next();
+// });
 
 app.get('/', function(req,res) {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
