@@ -11,7 +11,8 @@ const clientURL = "https://reactnote-app.herokuapp.com";
 var md5 = require('md5');
 
 
-app.use(express.static(path.join(__dirname, '../build')));
+// app.use(express.static(path.join(__dirname, '../build')));
+app.use("../build", express.static('../build/'));
 
 // var userData;
 // var userNotesData = [];
@@ -26,7 +27,8 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  // res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(__dirname + '../public/index.html');
 });
 
 // app.use(session({
