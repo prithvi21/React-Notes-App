@@ -17,7 +17,8 @@
   },
   "proxy" : "http://localhost:5000",
   "scripts": {
-    "start": "node api/server.js"
+    "start": "node api/server.js",
+    "heroku-postbuild": "node api/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
