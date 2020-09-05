@@ -15,9 +15,10 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3"
   },
-  "proxy" : "https://reactnote-app.herokuapp.com",
+  "proxy" : "http://localhost:3000",
   "scripts": {
-    "start": "node api/server.js"
+    "start": "node server.js",
+    "build" : "node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

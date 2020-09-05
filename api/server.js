@@ -5,7 +5,8 @@ const session = require('express-session');
 const PORT = 5000 || process.env.port;
 const cors = require('cors');
 const path = require('path');
-const clientURL = "https://reactnote-app.herokuapp.com";
+// const clientURL = "https://reactnote-app.herokuapp.com";
+const clientURL ="http://localhost:3000";
 const db = require('./db.js');
 var md5 = require('md5');
 
