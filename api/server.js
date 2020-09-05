@@ -8,7 +8,7 @@ const path = require('path');
 const clientURL = "https://reactnote-app.herokuapp.com";
 const db = require('./db.js');
 var md5 = require('md5');
-const { insertNotes } = require('./db.js');
+
 
 app.use(express.static(path.join(__dirname, '../build')));
 
@@ -73,7 +73,7 @@ app.post('/api/notes/:id', function (req,res) {
   const notes = req.body.notes;
   const notesArray = [];
   while(notes.length) notesArray.push(notes.splice(0,1));
-  insertNotes(req.params.id, notesArray).then(function(result){
+  db.insertNotes(req.params.id, notesArray).then(function(result){
     // console.log(result);
   userNotesData[req.params.id] = notesArray;
   console.log(userNotesData[req.params.id]);
