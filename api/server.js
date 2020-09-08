@@ -11,13 +11,13 @@ const db = require('./db.js');
 var md5 = require('md5');
 
 app.use(express.static(path.join(__dirname, '../build')));
-// app.use(express.static(path.join(__dirname, 'build')));
+
 
 
 var userData;
 var userNotesData = [];
 app.use(cors());
-// app.use(cors({credentials: true,'Access-Control-Allow-Origin' : 'http://localhost:3000'}));
+
 
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {

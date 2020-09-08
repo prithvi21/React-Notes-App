@@ -16,6 +16,7 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
+    "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "start": "node api/server.js"
   },
   "eslintConfig": {

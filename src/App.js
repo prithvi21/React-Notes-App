@@ -12,6 +12,7 @@ class App extends React.Component {
 
   constructor(props){
     super(props);
+    this.URL = "https://reactnote-app.herokuapp.com"
     this.state = {
       notesList : [],
       addNoteClicked : false,
@@ -25,7 +26,7 @@ class App extends React.Component {
   }
 
   createUserRequest = async () => {
-    const endpoint = "https://reactnote-app.herokuapp.com/create";
+    const endpoint = this.URL + "/create";
     const res = await fetch(endpoint, {
       method : 'POST',
       headers : {
@@ -47,7 +48,7 @@ class App extends React.Component {
   loginRequest = async () => {
     if (!this.state.signup) {
       console.log('login request');
-      const endpoint = "https://reactnote-app.herokuapp.com/auth"
+      const endpoint = this.URL + "/auth";
       const res = await
       fetch(endpoint, {
         method: 'POST',
@@ -108,7 +109,7 @@ class App extends React.Component {
   }
 
   getUsername = async () => {
-    const endpoint = "https://reactnote-app.herokuapp.com/auth";
+    const endpoint = this.URL + "/auth";
     const res = await fetch(endpoint, {
       method: 'GET',
       // credentials: 'include',
@@ -137,7 +138,7 @@ class App extends React.Component {
 
   updateDatabase = async () => {
     const userID = this.state.userID;
-    const endpoint = `https://reactnote-app.herokuapp.com/api/notes/${userID}`;
+    const endpoint = `${this.URL}/api/notes/${userID}`;
     // const noteKey = 'Notes for ID:' + userID;
     const res = await fetch(endpoint, {
       method : 'POST',
@@ -211,7 +212,7 @@ class App extends React.Component {
   }
 
   handleLogout = async () => {
-    const endpoint = 'https://reactnote-app.herokuapp.com/logout';
+    const endpoint = this.URL + "/logout";
     const res = await fetch(endpoint, {
       method : 'POST'
     });
@@ -228,7 +229,7 @@ class App extends React.Component {
     console.log('func');
     const userID = this.state.userID;
     // const userID = 1;
-    const endpoint = `https://reactnote-app.herokuapp.com/notes/${userID}`;
+    const endpoint = `${this.URL}/notes/${userID}`;
     const res = await fetch(endpoint, {
       method: 'GET',
       headers: { 'Content-Type': 'text/plain',
@@ -280,3 +281,7 @@ class App extends React.Component {
 
 
 export default App;
+
+
+// "build": "GENERATE_SOURCEMAP=false react-scripts build",
+// "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
