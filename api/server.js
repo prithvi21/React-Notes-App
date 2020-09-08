@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT || 5000; ;
 const cors = require('cors');
 const path = require('path');
 const clientURL = "https://reactnote-app.herokuapp.com";
@@ -28,8 +28,6 @@ app.use(function(req, res, next) {
 app.get('/', function(req,res) {
   console.log('get react app');
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-  // res.sendFile(path.join(__dirname, 'build', 'index.html'));
-
 });
 
 app.use(session({

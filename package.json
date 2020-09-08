@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express-session": "^1.17.1",
     "md5": "^2.3.0",
     "mysql": "^2.18.1",
@@ -17,7 +18,8 @@
   },
   "scripts": {
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
-    "start": "node api/server.js"
+    "react-start": "react-scripts start",
+    "start" : "node api/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,8 +36,12 @@
       "last 1 safari version"
     ]
   },
-  "engines":{
-    "node":"v12.18.3",
-    "npm":"6.14.6"
+  "engines": {
+    "node": "v12.18.3",
+    "npm": "6.14.6"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
   }
 }

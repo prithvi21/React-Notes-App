@@ -1,5 +1,6 @@
 .login-popup {
-  background-color : white;
+  /* background-color : white; */
+  background-color: #34495e;
   position : absolute;    
   width    : 250px;
   height   : 250px;

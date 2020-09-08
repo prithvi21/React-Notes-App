@@ -12,7 +12,8 @@ class App extends React.Component {
 
   constructor(props){
     super(props);
-    this.URL = "https://reactnote-app.herokuapp.com"
+    this.URL = 'https://reactnote-app.herokuapp.com';
+    console.log(this.URL);
     this.state = {
       notesList : [],
       addNoteClicked : false,
