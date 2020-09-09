@@ -18,10 +18,7 @@ var con = mysql.createPool({
   multipleStatements : true
 });
 
-con.getConnection(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+
 
 
 
@@ -59,16 +56,6 @@ con.getConnection(function(err) {
 // handleDisconnect();
 
 
-
-
-
-
-
-
-
-
-
-console.log('reached line 71');
 
 // var sql = "CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), username VARCHAR(255), password VARCHAR(255))";
 // con.query(sql, function (err, result) {
