@@ -55,7 +55,7 @@ class App extends React.Component {
         method: 'POST',
         headers : {
           'Content-type' : 'application/json',
-          'API KEY' : 'abc'
+          'APIKEY' : 'abc'
         },
         body : JSON.stringify({
           username : document.getElementsByName('username')[0].value,
