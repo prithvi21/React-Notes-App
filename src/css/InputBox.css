@@ -19,7 +19,7 @@ input#inputNote[type="text"] {
   padding : 15px 32px;
   text-align : center;
   color : white;
-  background-color : blue;
+  background-color : red;
   border-color: white;
 }
 

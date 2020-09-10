@@ -6,10 +6,7 @@ export default class Login extends React.Component {
 
     const loginButton = <button type = "button" className = "login-button"
     onClick = { this.props.login } > Login to save your notes! </button>
-    if(!this.props.loggedIn){
-      return (<span className="login">{loginButton}</span>);
-    } else {
-      return (null);
-    }  
+ 
+    return (!this.props.loggedIn) ? (<span className="login"> {loginButton} </span>) : (null);
   }
 }

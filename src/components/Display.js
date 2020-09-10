@@ -5,6 +5,7 @@ export default class Display extends React.Component {
 
   render(){
     const notesList = this.props.notesList;
+    
     const displayNotes = notesList.map( (note,note_id) =>
       <div id={ 'display-' + note_id } className="display">
         <p id={ 'note-' + note_id }>{note}</p>
@@ -16,6 +17,6 @@ export default class Display extends React.Component {
          onClick = { () => this.props.save(note_id) } >Save </button>
       </div> );
 
-    return <div>{displayNotes}</div>;
+    return <div> {displayNotes} </div>;
   }
 }

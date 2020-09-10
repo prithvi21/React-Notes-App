@@ -54,7 +54,8 @@ class App extends React.Component {
       fetch(endpoint, {
         method: 'POST',
         headers : {
-          'Content-type' : 'application/json'
+          'Content-type' : 'application/json',
+          'API KEY' : process.env.REACT_APP_API_KEY
         },
         body : JSON.stringify({
           username : document.getElementsByName('username')[0].value,
@@ -250,9 +251,8 @@ class App extends React.Component {
   
 
   render(){
-    return (this.state.addNoteClicked) 
-      ?(
-        <div>
+    return (
+      <div>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} a = {this.loginRequest}/>
@@ -262,19 +262,9 @@ class App extends React.Component {
           <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
-           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
-        </div>)
-      : (<div>
-          <Header />
-          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} a = {this.loginRequest}/>
-          <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
-           username = {this.state.username}/>
-          <NewNote handleClick = {this.handleAdd}/>
-          <Display notesList = {this.state.notesList}
-           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
-         </div>);  
+        </div>
+    )
      
   }
 }
