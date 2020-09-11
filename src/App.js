@@ -252,18 +252,19 @@ class App extends React.Component {
   /**
    * CHECK IF USERNAME IS AVAILABLE WHEN SIGNING UP
    */
-  validateUsername = async () => {
-    const endpoint = `${this.URL}/validateUsername`;
-    const res = await fetch(endpoint, {
-      method : 'GET',
-      headers : {
-        'Content-Type': 'text/plain',
-        'Accept': 'application/json'
-      }
-    });
-    const body = await res.json();
-    console.log(body);
-
+  validateUsername =  async () => {
+    if(this.state.signup) {
+      const endpoint = `${this.URL}/validateUsername`;
+      const res = await fetch(endpoint, {
+        method : 'GET',
+        headers : {
+          'Content-Type': 'text/plain',
+          'Accept': 'application/json'
+        }
+      });
+      const body = await res.json();
+      console.log(body);
+    }
   }
 
   
@@ -274,7 +275,7 @@ class App extends React.Component {
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} loginRequest = {this.loginRequest}
-            validateUsername = {this.props.validateUsername}/>
+            validateUsername = {this.validateUsername}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
