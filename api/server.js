@@ -159,8 +159,8 @@ app.post('/create', function(req,res) {
 });
 
 app.get('/validateUsername', function(req,res) {
-  db.getAllUsernames().then(function(res) {
-    res.status(200).send(res);
+  db.getAllUsernames().then(function(usernames) {
+    res.send(usernames);
   }).catch(function(err){
     res.send(err);
   })

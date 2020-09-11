@@ -125,12 +125,9 @@ function numberOfUsers() {
 function getAllUsernames() {
   var sql = "SELECT username FROM users";
   return new Promise( (resolve, reject) => {
-    con.query(sql, function (err, results) {
+    con.query(sql, function (err, result) {
       if(err) reject(err);
-      if (results.length > 0) {
-        const res = (JSON.stringify(results));
-        resolve(res);
-      }
+      else resolve(JSON.stringify(result));
     })
   })    
  
