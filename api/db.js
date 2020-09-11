@@ -11,11 +11,11 @@ const mysql = require('mysql');
 // });
 
 var con = mysql.createPool({
-  host : "eu-cdbr-west-03.cleardb.net",
-  user : "bbf3ad21c5ef87",
-  password : "4483e0cf",
-  database : "heroku_6d429a82e99620d",
-  multipleStatements : true
+  host: "eu-cdbr-west-03.cleardb.net",
+  user: "bbf3ad21c5ef87",
+  password: "4483e0cf",
+  database: "heroku_6d429a82e99620d",
+  multipleStatements: true
 });
 
 
@@ -67,15 +67,15 @@ var con = mysql.createPool({
 function createUser(name, username, password) {
   var sql = "INSERT INTO users (name,username,password) VALUES (?, ?, ?)";
   var values = [name, username, password];
-  return new Promise((resolve,reject) => {
+  return new Promise((resolve, reject) => {
     con.query(sql, values, function (err, result) {
-    if (err) reject(err);
-    if(result.affectedRows > 0) {
-      console.log(result.affectedRows + " record(s) updated");
-      resolve(true);
-    }
-    else reject(false);
-    });  
+      if (err) reject(err);
+      if (result.affectedRows > 0) {
+        console.log(result.affectedRows + " record(s) updated");
+        resolve(true);
+      }
+      else reject(false);
+    });
   });
 }
 
@@ -85,12 +85,12 @@ function validateUser(username, password) {
   var values = [username, password];
 
   return new Promise((resolve, reject) => {
-    con.query(sql,values, function(err, results) {
+    con.query(sql, values, function (err, results) {
       if (err) reject(err);
 
       if (results.length > 0) resolve("true");
       else reject("false");
-    }) 
+    })
   });
 }
 
@@ -98,39 +98,57 @@ function getIDFromUsername(username) {
   var sql = "SELECT (id) FROM users WHERE username = ?";
   var values = [username];
   return new Promise((resolve, reject) => {
-    con.query(sql,values, function(err, results) {
+    con.query(sql, values, function (err, results) {
       if (err) reject(err);
       if (results.length > 0) resolve(results[0].id);
       else reject(null);
-    }) 
+    })
   });
 }
 
 function numberOfUsers() {
   var sql = "SELECT COUNT(*) FROM users";
-  return new Promise((resolve,reject) => {
-    con.query(sql, function(err,results) {
+  return new Promise((resolve, reject) => {
+    con.query(sql, function (err, results) {
       if (err) reject(err);
       if (results.length > 0) {
         const res = JSON.parse(JSON.stringify(results[0]))
-        resolve(res[ 'COUNT(*)' ]);
+        resolve(res['COUNT(*)']);
       }
     })
-  }) 
+  })
+}
+
+/**
+ * USED FOR VALIDATING USERNAME WHEN USER IS TRYING TO SIGN UP
+ */
+function getAllUsernames() {
+  var sql = "SELECT username FROM users";
+  return new Promise( (resolve, reject) => {
+    con.query(sql, function (err, results) {
+      if(err) reject(err);
+      if (results.length > 0) {
+        const res = (JSON.stringify(results));
+        resolve(res);
+      }
+    })
+  })    
+ 
 }
 
 
 // numberOfUsers().then(res => console.log(res));
+// getAllUsernames().then(res => console.log(res));
 
 
 
 /** Create a table for each user storing their notes **/
-async function createUserTable(){
+async function createUserTable() {
   console.log('start');
-  const numOfIDs = await numberOfUsers().then(res => {return res}).catch(err => {return err});
+  const numOfIDs = await numberOfUsers().then(res => { return res }).catch(err => { return err });
   console.log(numOfIDs);
   console.log('end');
-  for(let i = 1; i <= numOfIDs; i++) {
+  for (let i = 1; i <= numOfIDs; i++) {
     var sql = "CREATE TABLE IF NOT EXISTS ?? (id INT AUTO_INCREMENT PRIMARY KEY, note VARCHAR(255))";
     var values = ['user_' + i];
     con.query(sql, values, function (err, result) {
@@ -153,8 +171,8 @@ function insertNotes(userID, notesArray) {
   console.log(userID);
   var tableName = ['user_' + userID];
   return new Promise((resolve, reject) => {
-    con.query(sql, [tableName, tableName, notesArray], function(err, result){
-      if(err) reject(err);
+    con.query(sql, [tableName, tableName, notesArray], function (err, result) {
+      if (err) reject(err);
       else resolve(true);
     })
   });
@@ -164,9 +182,8 @@ function sendNotesToClient(userID) {
   var sql = "SELECT note FROM ??";
   var tableName = [`user_${userID}`];
   return new Promise((resolve, reject) => {
-    con.query(sql, tableName, function(err, result){
-      if(err) reject(err);
-      // else resolve(JSON.parse(JSON.stringify(result)));
+    con.query(sql, tableName, function (err, result) {
+      if (err) reject(err);
       else resolve(JSON.stringify(result));
     })
   });
@@ -176,4 +193,4 @@ function sendNotesToClient(userID) {
 
 
 
-module.exports = { createUser, validateUser, getIDFromUsername, createUserTable , insertNotes, sendNotesToClient};
+module.exports = { createUser, validateUser, getIDFromUsername, createUserTable, insertNotes, sendNotesToClient, getAllUsernames };

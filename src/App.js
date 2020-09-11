@@ -234,18 +234,36 @@ class App extends React.Component {
     const endpoint = `${this.URL}/notes/${userID}`;
     const res = await fetch(endpoint, {
       method: 'GET',
-      headers: { 'Content-Type': 'text/plain',
-      'Accept': 'application/json'
+      headers: { 
+        'Content-Type': 'text/plain',
+        'Accept': 'application/json'
      }
     })
     const body = await res.json();
     var newNotesList = [];
-    for(let i=0;i<body.length;i++){
+    for(let i=0; i < body.length; i++){
       newNotesList.push(body[i].note);
     }
     this.setState({
       notesList : newNotesList
     })
+  }
+
+  /**
+   * CHECK IF USERNAME IS AVAILABLE WHEN SIGNING UP
+   */
+  validateUsername = async () => {
+    const endpoint = `${this.URL}/validateUsername`;
+    const res = await fetch(endpoint, {
+      method : 'GET',
+      headers : {
+        'Content-Type': 'text/plain',
+        'Accept': 'application/json'
+      }
+    });
+    const body = await res.json();
+    console.log(body);
+
   }
 
   
@@ -255,7 +273,8 @@ class App extends React.Component {
       <div>
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} a = {this.loginRequest}/>
+           signup = {this.signup} isSignup = {this.state.signup} loginRequest = {this.loginRequest}
+            validateUsername = {this.props.validateUsername}/>
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>

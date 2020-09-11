@@ -158,4 +158,12 @@ app.post('/create', function(req,res) {
   });
 });
 
+app.get('/validateUsername', function(req,res) {
+  db.getAllUsernames().then(function(res) {
+    res.status(200).send(res);
+  }).catch(function(err){
+    res.send(err);
+  })
+})
+
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));
