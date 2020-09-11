@@ -3,7 +3,7 @@
   background-color: #34495e;
   position : absolute;    
   width    : 250px;
-  height   : 250px;
+  height   : 275px;
   left     : 50%;
   top      : 50%;
   margin-left : -100px; /* half of the width  */
@@ -45,5 +45,10 @@ input[type=text] , input[type=password] {
 
 #name {
   display : none;
+}
+
+.validation-message {
+  color : red;
+  font-size: 12px;;
 }
  

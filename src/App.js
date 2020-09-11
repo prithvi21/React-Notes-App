@@ -267,9 +267,12 @@ class App extends React.Component {
       for(let i=0; i < body.length; i++){
         usernamesList.push(body[i].username);
       }
-      console.log(usernamesList);
+      // VALIDATION
+      return (usernamesList.includes(this.state.username)) ? Promise.resolve(true) : Promise.resolve(false);
     }
+     
   }
+
 
   
 

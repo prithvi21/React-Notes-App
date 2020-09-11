@@ -2,6 +2,16 @@ import React from 'react';
 import '../css/LoginPopup.css';
 
 export default class LoginPopup extends React.Component {
+  
+validate =  async () => {
+  const bool =  await this.props.validateUsername().then(res => {
+    return res;
+  });
+  console.log(bool);
+  if(bool){
+    document.getElementsByClassName('validation-message')[0].textContent = 'Username taken';
+  }  else document.getElementsByClassName('validation-message')[0].textContent = '';
+}
 
   render(){
     let buttonName;
@@ -13,7 +23,7 @@ export default class LoginPopup extends React.Component {
     } 
     const name = <input type="text" id="name" name="name" placeholder="Enter your name" />
 
-    const username = <input type="text" name="username" placeholder="ENTER USERNAME" onChange={this.props.validateUsername}/>
+    const username = <input type="text" name="username" placeholder="ENTER USERNAME" onChange={this.validate}/>
 
     const password = <input type="password" name="password" placeholder="ENTER PASSWORD"/>
 
@@ -29,7 +39,7 @@ export default class LoginPopup extends React.Component {
        {name}  
        <br /><br />
        {username}
-       <br /><br />
+       <p className="validation-message"></p>
        {password}
        <br /><br />
        {loginButton}
