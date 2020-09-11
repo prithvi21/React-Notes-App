@@ -263,7 +263,11 @@ class App extends React.Component {
         }
       });
       const body = await res.json();
-      console.log(body);
+      var usernamesList = [];
+      for(let i=0; i < body.length; i++){
+        usernamesList.push(body[i].username);
+      }
+      console.log(usernamesList);
     }
   }
 
