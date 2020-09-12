@@ -27,6 +27,7 @@ class App extends React.Component {
   }
 
   createUserRequest = async () => {
+    console.log('create');
     const endpoint = this.URL + "/create";
     const res = await fetch(endpoint, {
       method : 'POST',
@@ -270,7 +271,6 @@ class App extends React.Component {
       // VALIDATION
       return (usernamesList.includes(document.getElementsByName('username')[0].value)) ? Promise.resolve(true) : Promise.resolve(false);
     }
-     
   }
 
 

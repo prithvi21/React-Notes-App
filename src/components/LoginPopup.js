@@ -10,7 +10,12 @@ validate =  async () => {
   console.log(bool);
   if(bool){
     document.getElementsByClassName('validation-message')[0].textContent = 'Username taken';
-  }  else document.getElementsByClassName('validation-message')[0].textContent = '';
+    document.getElementsByClassName('login-submit')[0].style.opacity = 0.5;
+  }  else {
+      document.getElementsByClassName('validation-message')[0].textContent = '';
+    } 
+  //Button disabled until valid username  
+  document.getElementsByClassName('login-submit')[0].disabled = bool;  
 }
 
   render(){
