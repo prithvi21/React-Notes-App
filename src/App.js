@@ -24,6 +24,13 @@ class App extends React.Component {
       username : null,
       userID : null
     };
+
+    /**
+     * Refs for input fields for login/signup
+     */
+    this.usernameRef = React.createRef();
+    this.nameRef = React.createRef();
+    this.passwordRef = React.createRef();
   }
 
   createUserRequest = async () => {
@@ -35,9 +42,12 @@ class App extends React.Component {
         'Content-type' : 'application/json'
       },
       body : JSON.stringify({
-        name     : document.getElementsByName('name')[0].value,
-        username : document.getElementsByName('username')[0].value,
-        password : document.getElementsByName('password')[0].value
+        // name     : document.getElementsByName('name')[0].value,
+        // username : document.getElementsByName('username')[0].value,
+        // password : document.getElementsByName('password')[0].value
+        name      : this.nameRef.current.value,
+        username  : this.usernameRef.current.value,
+        password  : this.passwordRef.current.value
       })
     });
     const body = await res.text();
@@ -59,8 +69,10 @@ class App extends React.Component {
           'APIKEY' : 'abc'
         },
         body : JSON.stringify({
-          username : document.getElementsByName('username')[0].value,
-          password : document.getElementsByName('password')[0].value
+          // username : document.getElementsByName('username')[0].value,
+          // password : document.getElementsByName('password')[0].value
+          username  : this.usernameRef.current.value,
+          password  : this.passwordRef.current.value
         }
       )
       });
@@ -269,8 +281,10 @@ class App extends React.Component {
         usernamesList.push(body[i].username);
       }
       // VALIDATION
-      return (usernamesList.includes(document.getElementsByName('username')[0].value)) ? Promise.resolve(true) : Promise.resolve(false);
+      return (usernamesList.includes(this.usernameRef.current.value)) ? Promise.resolve(true) : Promise.resolve(false);
     }
+    // console.log(this.usernameRef.current.value);
+    // return (1+1 ==2) ? Promise.resolve(true) : Promise.resolve(false);
   }
 
 
@@ -282,7 +296,8 @@ class App extends React.Component {
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} loginRequest = {this.loginRequest}
-            validateUsername = {this.validateUsername}/>
+            validateUsername = {this.validateUsername} usernameRef = {this.usernameRef} nameRef = {this.nameRef}
+            passwordRef = {this.passwordRef} />
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
