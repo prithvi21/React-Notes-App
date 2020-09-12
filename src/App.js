@@ -16,27 +16,18 @@ class App extends React.Component {
     console.log(this.URL);
     this.state = {
       notesList : [],
+      noteEditable : false,
       addNoteClicked : false,
       showInputBox : false,
       showPopup : false,
       signup : false,
       loggedIn : false,
+      name : null,
       username : null,
-      userID : null
+      password : null,
+      userID : null,
+      currentNote : null
     };
-
-    /**
-     * Refs for input fields for login/signup
-     */
-    this.usernameRef = React.createRef();
-    this.nameRef = React.createRef();
-    this.passwordRef = React.createRef();
-
-    /**
-     * Ref for input note field
-     */
-    this.inputNoteRef = React.createRef();
-
   }
 
   createUserRequest = async () => {
@@ -48,9 +39,9 @@ class App extends React.Component {
         'Content-type' : 'application/json'
       },
       body : JSON.stringify({
-        name      : this.nameRef.current.value,
-        username  : this.usernameRef.current.value,
-        password  : this.passwordRef.current.value
+        name      : this.state.name,
+        username  : this.state.username,
+        password  : this.state.password
       })
     });
     const body = await res.text();
@@ -72,8 +63,8 @@ class App extends React.Component {
           'APIKEY' : 'abc'
         },
         body : JSON.stringify({
-          username  : this.usernameRef.current.value,
-          password  : this.passwordRef.current.value
+          username  : this.state.username,
+          password  : this.state.password
         }
       )
       });
@@ -89,8 +80,6 @@ class App extends React.Component {
 
   signup = () => {
     console.log('signup');
-    document.getElementsByClassName('login-submit')[1].style.display = 'none';
-    this.nameRef.current.style.display = 'initial';
     this.setState({
       signup : true
     });
@@ -105,25 +94,22 @@ class App extends React.Component {
   }
 
   handleCreate = (event) => {
-  //  const inputField =  document.getElementById('inputNote');
-   const inputField = this.inputNoteRef.current; 
-   if(inputField.value === ''){
+   if(this.state.currentNote === ''){
     alert("Note can't be empty");
      event.preventDefault();
      return;
    }
-   const noteData = inputField.value;
    if(this.state.loggedIn){
     this.setState({
-      notesList : this.state.notesList.concat(noteData),
+      notesList : this.state.notesList.concat(this.state.currentNote),
       showInputBox : false
     },this.updateDatabase);
-  } else {
-    this.setState({
-      notesList : this.state.notesList.concat(noteData),
-      showInputBox : false
+   } else {
+       this.setState({
+         notesList : this.state.notesList.concat(this.state.currentNote),
+         showInputBox : false
     });
-  }
+     }
   }
 
   getUsername = async () => {
@@ -173,7 +159,9 @@ class App extends React.Component {
   handleEdit = (noteID) => {
     const id = 'note-' + noteID;
     const save_id = 'save-' + noteID;
-    document.getElementById(id).contentEditable = 'true';
+    this.setState({
+      noteEditable : true
+    })
     document.getElementById(save_id).style.display = 'initial';//show save button once edit clicked
   }
 
@@ -200,12 +188,16 @@ class App extends React.Component {
   saveAfterEdit = (noteID) => {
     const id = 'note-' + noteID;
     const save_id = 'save-' + noteID;
-    document.getElementById(id).contentEditable = 'false';
+    this.setState({
+      noteEditable : false
+    })
     document.getElementById(save_id).style.display = 'none';//hide save button after save clicked
 
     //replacing the note with the edited note and updating state
     const newNotesList = this.state.notesList;
     const newNote = document.getElementById(id).textContent;
+    console.log(this.state.currentNote);
+    // const newNote = this.state.currentNote;
     console.log(id);
     console.log(newNote);
     newNotesList.splice(noteID,1,newNote);
@@ -284,12 +276,21 @@ class App extends React.Component {
         usernamesList.push(body[i].username);
       }
       // VALIDATION
-      return (usernamesList.includes(this.usernameRef.current.value)) ? Promise.resolve(true) : Promise.resolve(false);
+      return (usernamesList.includes(this.state.username)) ? Promise.resolve(true) : Promise.resolve(false);
     }
-    // console.log(this.usernameRef.current.value);
     // return (1+1 ==2) ? Promise.resolve(true) : Promise.resolve(false);
   }
 
+
+  handleChange = async event => {
+    console.log(event.target.name);
+    /**
+     * event.target.name is one of name, username,password or currentNote
+     */
+    this.setState({
+      [event.target.name] : event.target.value
+    });
+  }
 
   
 
@@ -299,13 +300,12 @@ class App extends React.Component {
           <Header />
           <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
            signup = {this.signup} isSignup = {this.state.signup} loginRequest = {this.loginRequest}
-            validateUsername = {this.validateUsername} usernameRef = {this.usernameRef} nameRef = {this.nameRef}
-            passwordRef = {this.passwordRef} />
+            validateUsername = {this.validateUsername} handleChange = {this.handleChange} />
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
-          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} inputNoteRef = {this.inputNoteRef} />
-          <Display notesList = {this.state.notesList}
+          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} handleChange = {this.handleChange}  />
+          <Display notesList = {this.state.notesList} isEditable = {this.state.noteEditable}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
         </div>

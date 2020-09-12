@@ -7,8 +7,8 @@ export default class Display extends React.Component {
     const notesList = this.props.notesList;
     
     const displayNotes = notesList.map( (note,note_id) =>
-      <div id={ 'display-' + note_id } className="display">
-        <p id={ 'note-' + note_id }>{note}</p>
+      <div key={note_id} id={ 'display-' + note_id } className="display">
+        <p id={ 'note-' + note_id } contentEditable = {this.props.isEditable} > {note} </p>
         <button type="button" className="edit-button"
          onClick={ () => this.props.edit(note_id) }> Edit </button>
         <button type="button" className="delete-button"

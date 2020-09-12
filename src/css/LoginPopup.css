@@ -43,9 +43,9 @@ input[type=text] , input[type=password] {
   font-family : Copperplate Gothic Light;
 }
 
-#name {
+/* #name {
   display : none;
-}
+} */
 
 .validation-message {
   color : red;
