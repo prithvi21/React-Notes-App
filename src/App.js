@@ -31,6 +31,12 @@ class App extends React.Component {
     this.usernameRef = React.createRef();
     this.nameRef = React.createRef();
     this.passwordRef = React.createRef();
+
+    /**
+     * Ref for input note field
+     */
+    this.inputNoteRef = React.createRef();
+
   }
 
   createUserRequest = async () => {
@@ -42,9 +48,6 @@ class App extends React.Component {
         'Content-type' : 'application/json'
       },
       body : JSON.stringify({
-        // name     : document.getElementsByName('name')[0].value,
-        // username : document.getElementsByName('username')[0].value,
-        // password : document.getElementsByName('password')[0].value
         name      : this.nameRef.current.value,
         username  : this.usernameRef.current.value,
         password  : this.passwordRef.current.value
@@ -69,8 +72,6 @@ class App extends React.Component {
           'APIKEY' : 'abc'
         },
         body : JSON.stringify({
-          // username : document.getElementsByName('username')[0].value,
-          // password : document.getElementsByName('password')[0].value
           username  : this.usernameRef.current.value,
           password  : this.passwordRef.current.value
         }
@@ -87,8 +88,9 @@ class App extends React.Component {
 
 
   signup = () => {
+    console.log('signup');
     document.getElementsByClassName('login-submit')[1].style.display = 'none';
-    document.getElementById('name').style.display = 'initial';
+    this.nameRef.current.style.display = 'initial';
     this.setState({
       signup : true
     });
@@ -103,7 +105,8 @@ class App extends React.Component {
   }
 
   handleCreate = (event) => {
-   const inputField =  document.getElementById('inputNote');
+  //  const inputField =  document.getElementById('inputNote');
+   const inputField = this.inputNoteRef.current; 
    if(inputField.value === ''){
     alert("Note can't be empty");
      event.preventDefault();
@@ -301,7 +304,7 @@ class App extends React.Component {
           <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
            username = {this.state.username}/>
           <NewNote handleClick = {this.handleAdd}/>
-          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} />
+          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} inputNoteRef = {this.inputNoteRef} />
           <Display notesList = {this.state.notesList}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
