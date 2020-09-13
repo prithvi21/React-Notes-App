@@ -16,7 +16,7 @@ class App extends React.Component {
     console.log(this.URL);
     this.state = {
       notesList : [],
-      noteEditable : false,
+      noteEditable : [],//values of true or false of each note index
       addNoteClicked : false,
       showInputBox : false,
       showPopup : false,
@@ -159,10 +159,11 @@ class App extends React.Component {
   handleEdit = (noteID) => {
     const id = 'note-' + noteID;
     const save_id = 'save-' + noteID;
+    const a = this.state.noteEditable;
+    a[noteID] = true;
     this.setState({
-      noteEditable : true
+      noteEditable : a
     })
-    document.getElementById(save_id).style.display = 'initial';//show save button once edit clicked
   }
 
 
@@ -188,16 +189,16 @@ class App extends React.Component {
   saveAfterEdit = (noteID) => {
     const id = 'note-' + noteID;
     const save_id = 'save-' + noteID;
+    const a = this.state.noteEditable;
+    a[noteID] = false;
     this.setState({
-      noteEditable : false
+      noteEditable : a
     })
-    document.getElementById(save_id).style.display = 'none';//hide save button after save clicked
-
     //replacing the note with the edited note and updating state
     const newNotesList = this.state.notesList;
-    const newNote = document.getElementById(id).textContent;
-    console.log(this.state.currentNote);
+    const newNote = document.getElementById(id).textContent; // working but not ideal
     // const newNote = this.state.currentNote;
+    console.log(this.state.currentNote);
     console.log(id);
     console.log(newNote);
     newNotesList.splice(noteID,1,newNote);
@@ -306,7 +307,7 @@ class App extends React.Component {
           <NewNote handleClick = {this.handleAdd}/>
           <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} handleChange = {this.handleChange}  />
           <Display notesList = {this.state.notesList} isEditable = {this.state.noteEditable}
-           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} />
+           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit}   />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
         </div>
     )
