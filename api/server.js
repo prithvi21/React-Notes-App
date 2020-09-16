@@ -20,10 +20,10 @@ var userNotesData = [];
 app.use(cors());
 
 
-// middleware to redirect http to https using req.secure
+
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
-  if (req.secure) {
+  if (req.protocol === 'https') {
     res.setHeader('Access-Control-Allow-Origin', clientURL);
     next();
   }  
