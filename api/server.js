@@ -106,7 +106,7 @@ app.post('/auth', async function(req,res) {
   //   console.log('not ok');
   // });
 
-  db.validateUser(username, password).then(function(){
+  db.validateUser(username, password).then(async function(){
     let fetchID = await db.getIDFromUsername(username).then(function(result){
       return result;
     },function(err){
