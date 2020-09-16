@@ -95,18 +95,26 @@ app.get('/notes/:id', function(req,res) {
 })
 
 
-app.post('/auth', function(req,res) {
+app.post('/auth', async function(req,res) {
   const username = req.body.username;
   const password = md5(req.body.password);
-  db.getIDFromUsername(username).then(function(result){
-    console.log('get method:'+result);
-    req.session.ID = result;
-    console.log(req.session.ID);
-  },function(){
-    console.log('not ok');
-  });
+  // db.getIDFromUsername(username).then(function(result){
+  //   console.log('get method:'+result);
+  //   req.session.ID = result;
+  //   console.log(req.session.ID);
+  // },function(){
+  //   console.log('not ok');
+  // });
+
   db.validateUser(username, password).then(function(){
+    let fetchID = await db.getIDFromUsername(username).then(function(result){
+      return result;
+    },function(err){
+      return err;
+    });
+    
     console.log('success');
+    req.session.ID = fetchID;
     req.session.loggedIn = true;
     req.session.username = username;
     res.status(200);

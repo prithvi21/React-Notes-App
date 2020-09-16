@@ -180,7 +180,11 @@ function sendNotesToClient(userID) {
 }
 
 // sendNotesToClient(1).then(res => console.log(res)).catch(err => console.log(err));
-
+async function fun(){
+  let p =await getIDFromUsername('Prithvi').then(r => {return r}).catch();
+  console.log(p);
+}
+fun();
 
 
 module.exports = { createUser, validateUser, getIDFromUsername, createUserTable, insertNotes, sendNotesToClient, getAllUsernames };
