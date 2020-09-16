@@ -23,19 +23,16 @@ app.use(cors());
 
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
-  console.log(req.headers["x-forwarded-proto"]);
-  if (req.headers["x-forwarded-proto"] != "http") {
-    res.setHeader('Access-Control-Allow-Origin', clientURL);
-    next();
-  }  
-  else {
-    res.redirect(clientURL);
-  }  
+  res.setHeader('Access-Control-Allow-Origin', clientURL);
+  next();
 });
 
 app.get('/', function(req,res) {
-  console.log('get react app');
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  if(req.headers["x-forwarded-proto"] == "http") res.redirect(clientURL);
+  else {
+    console.log('get react app');
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  }  
 });
 
 app.use(session({
