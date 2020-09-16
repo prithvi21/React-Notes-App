@@ -13,6 +13,8 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.URL = 'https://reactnote-app.herokuapp.com';
+    this.refsList = React.createRef();
+    this.refsList.current = [];
     console.log(this.URL);
     this.state = {
       notesList : [],
@@ -29,6 +31,8 @@ class App extends React.Component {
       currentNote : null
     };
   }
+
+  
 
   createUserRequest = async () => {
     console.log('create');
@@ -196,8 +200,8 @@ class App extends React.Component {
     })
     //replacing the note with the edited note and updating state
     const newNotesList = this.state.notesList;
-    const newNote = document.getElementById(id).textContent; // working but not ideal
-    // const newNote = this.state.currentNote;
+    // const newNote = document.getElementById(id).textContent; // working but not ideal
+    const newNote = this.refsList.current[noteID].innerText;
     console.log(this.state.currentNote);
     console.log(id);
     console.log(newNote);
@@ -296,6 +300,7 @@ class App extends React.Component {
   
 
   render(){
+    // if(this.state.notesList.length>2) console.log(this.refsList.current[1].innerText);
     return (
       <div>
           <Header />
@@ -307,7 +312,7 @@ class App extends React.Component {
           <NewNote handleClick = {this.handleAdd}/>
           <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} handleChange = {this.handleChange}  />
           <Display notesList = {this.state.notesList} isEditable = {this.state.noteEditable}
-           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit}   />
+           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} refsList = {this.refsList}   />
           <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
         </div>
     )

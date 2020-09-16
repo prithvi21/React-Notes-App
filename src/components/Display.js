@@ -5,10 +5,10 @@ export default class Display extends React.Component {
 
   render(){
     const notesList = this.props.notesList;
-    
     const displayNotes = notesList.map( (note,note_id) =>
       <div key={note_id} id={ 'display-' + note_id } className="display">
-        <p id={ 'note-' + note_id } contentEditable = { this.props.isEditable[note_id] } > {note} </p>
+        <p id={ 'note-' + note_id } contentEditable = { this.props.isEditable[note_id] }
+         ref = { node => this.props.refsList.current[note_id] = node } > {note} </p>
         <button type="button" className="edit-button"
          onClick={ () => this.props.edit(note_id) }> Edit </button>
         <button type="button" className="delete-button"
@@ -16,7 +16,6 @@ export default class Display extends React.Component {
         { this.props.isEditable[note_id] ? <button type="button" id={ 'save-' + note_id } className="save-button"
          onClick = { () => this.props.save(note_id) } >Save </button> : null }
       </div> );
-
     return <div> {displayNotes} </div>;
   }
 }
