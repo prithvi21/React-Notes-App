@@ -28,11 +28,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req,res) {
-  if(req.headers["x-forwarded-proto"] == "http") res.redirect(clientURL);
-  else {
-    console.log('get react app');
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-  }  
+  console.log('get react app');
+  res.sendFile(path.join(__dirname, '../build', 'index.html')); 
 });
 
 app.use(session({
