@@ -88,8 +88,8 @@ app.post('/api/notes/:id', function (req,res) {
 app.get('/notes/:id', function(req,res) {
   db.sendNotesToClient(req.params.id).then(function(notes){
     res.send(notes);
-  }).catch(function() {
-    res.send('ERROR');
+  }).catch(function(err) {
+    res.send(err);
   })
 })
 
@@ -116,7 +116,6 @@ app.post('/auth', function(req,res) {
       loggedIn : req.session.loggedIn
     })
     res.send(userData);
-    // res.redirect(URL);
   }, function(){
        console.log('incorrect password');
        req.session.loggedIn = false;
@@ -127,7 +126,6 @@ app.post('/auth', function(req,res) {
         loggedIn : req.session.loggedIn
       })
       res.send(userData);
-      //  res.redirect(URL);
   })
  
 });

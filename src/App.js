@@ -135,11 +135,11 @@ class App extends React.Component {
       username : body.username,
       userID :   body.userID,
       showPopup : false
-    })
+    },this.getNotes);
     else {
       alert('Wrong Username/Password');
     }
-    this.getNotes();
+    // this.getNotes();
     // return body;
   }
 
