@@ -5,7 +5,7 @@ export default class NewNote extends React.Component {
 
 
   render(){
-    const newNote = <button className="add-button" onClick={this.props.handleClick}>Add a note +</button>
+    const newNote = <button className="add-button" onClick = { this.props.addNoteClicked } > Add a note + </button>
     return (
       <span className="main">
         {newNote}

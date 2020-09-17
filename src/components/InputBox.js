@@ -8,9 +8,9 @@ export default class InputBox extends React.Component {
     const input = <input type="text" name = "currentNote" placeholder="Enter a note" id="inputNote"
      onChange = {this.props.handleChange}/>;
     const submit = <button type="button" className="create-note-button" 
-    onClick={this.props.handleClick}> Create Note </button>;
+    onClick={this.props.handleCreate}> Create Note </button>;
 
-    return (this.props.show)
+    return (this.props.showInputBox)
      ? ( <span className="input-box">
            {input}
            {submit}

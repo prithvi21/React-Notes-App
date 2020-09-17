@@ -218,8 +218,7 @@ class App extends React.Component {
       }
   }
 
-  handleLogin = () => {
-    console.log('login clicked');
+  handlePopup = () => {
     this.setState({
       showPopup : ! this.state.showPopup,
       signup : false
@@ -300,20 +299,18 @@ class App extends React.Component {
   
 
   render(){
-    // if(this.state.notesList.length>2) console.log(this.refsList.current[1].innerText);
     return (
       <div>
-          <Header />
-          <LoginPopup showPopup = {this.state.showPopup} handlePopup = {this.handleLogin}
-           signup = {this.signup} isSignup = {this.state.signup} loginRequest = {this.loginRequest}
-            validateUsername = {this.validateUsername} handleChange = {this.handleChange} />
-          <Login login = {this.handleLogin} loggedIn = {this.state.loggedIn}
-           username = {this.state.username}/>
-          <NewNote handleClick = {this.handleAdd}/>
-          <InputBox handleClick = {this.handleCreate} show = {this.state.showInputBox} handleChange = {this.handleChange}  />
+          < Header />
+          < LoginPopup showPopup = { this.state.showPopup } handlePopup = { this.handlePopup }
+           signupClicked = { this.signup } isSignup = { this.state.signup } loginRequest = { this.loginRequest }
+            validateUsername = { this.validateUsername } handleChange = { this.handleChange } />
+          < Login  handlePopup = { this.handlePopup } isLoggedIn = { this.state.loggedIn } />
+          < NewNote addNoteClicked = { this.handleAdd } />
+          <InputBox handleCreate = {this.handleCreate} showInputBox = {this.state.showInputBox} handleChange = {this.handleChange}  />
           <Display notesList = {this.state.notesList} isEditable = {this.state.noteEditable}
            edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} refsList = {this.refsList}   />
-          <User loggedIn = {this.state.loggedIn} logout = {this.handleLogout} />
+          <User isLoggedIn = {this.state.loggedIn} handleLogout = {this.handleLogout} />
         </div>
     )
      

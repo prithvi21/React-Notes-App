@@ -38,7 +38,8 @@ export default class LoginPopup extends React.Component {
     const closePopup = <button type="text" className="close-button"
       onClick={this.props.handlePopup}></button>;
 
-    const signup = <button type="button" className="login-submit" onClick={this.props.signup}>Don't have an account? Sign up!</button> 
+    const signup = <button type="button" className="login-submit" onClick = { this.props.signupClicked } >
+      Don't have an account? Sign up! </button> 
       
     const popup = (
       <div>
