@@ -22,9 +22,6 @@ app.use(requireHTTPS);
 
 app.use(express.static(path.join(__dirname, '../build')));
 
-
-
-
 var userData;
 var userNotesData = [];
 app.use(cors());
@@ -79,7 +76,6 @@ app.use((req, res, next) => {
 
 app.get('/api/notes/:id', function(req,res){
   res.send(userNotesData[req.params.id]);
-  // res.end();
 })
 
 // Handles updating notes
@@ -150,7 +146,15 @@ app.post('/auth', async function(req,res) {
 });
 
 app.get('/auth', function(req, res) {
+  // res.send(userData);
+  const userData = JSON.stringify({
+    userID   : req.session.ID,
+    username : req.session.username,
+    loggedIn : req.session.loggedIn,
+    token    : generateToken(req.session.username,req.session.ID)
+  })
   res.send(userData);
+
 })
 
 app.post('/logout', function(req, res) {

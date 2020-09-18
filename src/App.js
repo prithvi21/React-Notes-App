@@ -76,6 +76,7 @@ class App extends React.Component {
       });
       let body = await res.json();
       console.log(body.token);
+      this.token = body.token;
       this.getUsername();
     } else {
         this.createUserRequest();
@@ -155,7 +156,8 @@ class App extends React.Component {
       method : 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'token' : this.token
       },
       body : JSON.stringify({
         notes : this.state.notesList
@@ -255,7 +257,8 @@ class App extends React.Component {
       headers: { 
         'Content-Type': 'text/plain',
         'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'token' : this.token
      }
     })
     const body = await res.json();
