@@ -10,6 +10,12 @@ const clientURL = "https://reactnote-app.herokuapp.com";
 const db = require('./db.js');
 var md5 = require('md5');
 
+
+app.use(function(req, res, next) {
+  if (req.headers['x-forwarded-proto'] === 'https') return next();
+  return res.send('Hit URL with HTTPS');
+})
+
 app.use(express.static(path.join(__dirname, '../build')));
 
 
@@ -34,8 +40,7 @@ app.use(cors());
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  if (req.headers['x-forwarded-proto'] === 'https') return res.sendFile(path.join(__dirname, '../build', 'index.html')); 
-  return res.send('Hit URL with HTTPS');
+  return res.sendFile(path.join(__dirname, '../build', 'index.html')); 
 });
 
 // a middleware with no mount path; gets executed for every request to the app
