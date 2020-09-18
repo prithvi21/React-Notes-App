@@ -21,20 +21,21 @@ app.use(cors());
 
 
 
-function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
-    return res.redirect(clientURL);
-  }
-  next();
-}
+// function requireHTTPS(req, res, next) {
+//   // The 'x-forwarded-proto' check is for Heroku
+//   if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
+//     return res.redirect(clientURL);
+//   }
+//   next();
+// }
 
 
-app.use(requireHTTPS);
+// app.use(requireHTTPS);
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+  // res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+  res.send(req.protocol);
 });
 
 // a middleware with no mount path; gets executed for every request to the app
