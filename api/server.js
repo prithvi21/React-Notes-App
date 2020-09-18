@@ -157,7 +157,7 @@ app.get('/auth', function(req, res) {
     userID   : req.session.ID,
     username : req.session.username,
     loggedIn : req.session.loggedIn,
-    token    : generateToken(req, req.session.username, req.session.ID)
+    token    : cryptr.encrypt(req.session.token)
   })
   res.send(userData);
 
