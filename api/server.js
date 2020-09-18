@@ -9,12 +9,16 @@ const URL = "https://reactnote-app.herokuapp.com";
 // const URL ="http://localhost:5000";
 const db = require('./db.js');
 var md5 = require('md5');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('gibberish');
 
 
-app.use(function(req, res, next) {
+function requireHTTPS(req, res, next) {
   if (req.headers['x-forwarded-proto'] === 'https') return next();
   return res.redirect(URL);
-})
+}
+
+app.use(requireHTTPS);
 
 app.use(express.static(path.join(__dirname, '../build')));
 
@@ -25,18 +29,6 @@ var userData;
 var userNotesData = [];
 app.use(cors());
 
-
-
-// function requireHTTPS(req, res, next) {
-//   // The 'x-forwarded-proto' check is for Heroku
-//   if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
-//     return res.redirect(URL);
-//   }
-//   next();
-// }
-
-
-// app.use(requireHTTPS);
 
 app.get('/', function(req,res) {
   console.log('get react app');
@@ -121,13 +113,7 @@ app.get('/notes/:id', function(req,res) {
 app.post('/auth', async function(req,res) {
   const username = req.body.username;
   const password = md5(req.body.password);
-  // db.getIDFromUsername(username).then(function(result){
-  //   console.log('get method:'+result);
-  //   req.session.ID = result;
-  //   console.log(req.session.ID);
-  // },function(){
-  //   console.log('not ok');
-  // });
+
 
   db.validateUser(username, password).then(async function(){
     let fetchID = await db.getIDFromUsername(username).then(function(result){
@@ -145,7 +131,8 @@ app.post('/auth', async function(req,res) {
     userData = JSON.stringify({
       userID   : req.session.ID,
       username : req.session.username,
-      loggedIn : req.session.loggedIn
+      loggedIn : req.session.loggedIn,
+      token    : generateToken(req.session.username,req.session.ID)
     })
     res.send(userData);
   }, function(){
@@ -196,6 +183,9 @@ app.get('/validateUsername', function(req,res) {
   })
 })
 
-
+function generateToken(username, userID){
+  const token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+  return cryptr.encrypt(token);
+}
 
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));

@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "cors": "^2.8.5",
+    "cryptr": "^6.0.2",
     "dotenv": "^8.2.0",
     "express-session": "^1.17.1",
     "md5": "^2.3.0",
@@ -17,7 +18,7 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
-    "build" : "cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "react-start": "react-scripts start",
     "start": "node api/server.js"
   },

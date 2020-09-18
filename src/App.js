@@ -74,7 +74,7 @@ class App extends React.Component {
       )
       });
       let body = await res.text();
-      console.log(body);
+      console.log(body.token);
       this.getUsername();
     } else {
         this.createUserRequest();
