@@ -12,6 +12,7 @@ var md5 = require('md5');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr('gibberish');
 
+console.log(process.env.NODE_ENV);
 
 function requireHTTPS(req, res, next) {
   if (req.headers['x-forwarded-proto'] === 'https') return next();
