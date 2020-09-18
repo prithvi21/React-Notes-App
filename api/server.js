@@ -10,7 +10,7 @@ const clientURL = "https://reactnote-app.herokuapp.com";
 const db = require('./db.js');
 var md5 = require('md5');
 
-// app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 
 
