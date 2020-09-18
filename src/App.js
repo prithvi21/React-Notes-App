@@ -289,10 +289,17 @@ class App extends React.Component {
   handleChange = async event => {
     console.log(event.target.name);
     /**
-     * event.target.name is one of name, username,password or currentNote
+     * event.target.name is either name, username,password or currentNote
      */
     this.setState({
       [event.target.name] : event.target.value
+    });
+  }
+
+  closeAddNote = () => {
+    console.log('ok');
+    this.setState({
+      showInputBox : false
     });
   }
 
@@ -307,10 +314,11 @@ class App extends React.Component {
             validateUsername = { this.validateUsername } handleChange = { this.handleChange } />
           < Login  handlePopup = { this.handlePopup } isLoggedIn = { this.state.loggedIn } />
           < NewNote addNoteClicked = { this.handleAdd } />
-          <InputBox handleCreate = {this.handleCreate} showInputBox = {this.state.showInputBox} handleChange = {this.handleChange}  />
-          <Display notesList = {this.state.notesList} isEditable = {this.state.noteEditable}
-           edit = {this.handleEdit} delete = {this.handleDelete} save = {this.saveAfterEdit} refsList = {this.refsList}   />
-          <User isLoggedIn = {this.state.loggedIn} handleLogout = {this.handleLogout} />
+          < InputBox handleCreate = { this.handleCreate } showInputBox = { this.state.showInputBox }
+           handleChange = {this.handleChange} closeAddNote = { this.closeAddNote } />
+          < Display notesList = { this.state.notesList } isEditable = { this.state.noteEditable }
+           edit = { this.handleEdit } delete = { this.handleDelete } save = { this.saveAfterEdit } refsList = { this.refsList } />
+          < User isLoggedIn = { this.state.loggedIn } handleLogout = { this.handleLogout } />
         </div>
     )
      

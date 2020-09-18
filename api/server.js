@@ -29,7 +29,12 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+  if (req.secure){
+    res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+  }
+  else {
+    res.send('Hit URL with HTTPS and not HTTP');
+  }
 });
 
 app.use(session({

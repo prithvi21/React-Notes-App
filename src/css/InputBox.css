@@ -16,14 +16,25 @@ input#inputNote[type="text"] {
 }
 
 .create-note-button {
-  padding : 15px 32px;
+  font-family : Bahnschrift;
+  padding : 20px 32px;
   text-align : center;
   color : white;
-  background-color : red;
+  background-color : #3498db;
   border-color: white;
 }
 
 .input-box input::-webkit-input-placeholder {
   color:white !important;
   font-family : Copperplate Gothic Light;
+}
+
+.close-new-note-button {
+  background-image: url('../images/close-img.png');
+  background-size : cover;
+  height : 30px;
+  width : 30px;
+  position : relative;
+  right : 175px;
+  bottom : 20px;
 }
