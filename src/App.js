@@ -122,7 +122,8 @@ class App extends React.Component {
       method: 'GET',
       // credentials: 'include',
       headers: { 'Content-Type': 'text/plain',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
      }
     });
     let body = await res.text();
@@ -248,7 +249,8 @@ class App extends React.Component {
       method: 'GET',
       headers: { 
         'Content-Type': 'text/plain',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
      }
     })
     const body = await res.json();
@@ -271,7 +273,8 @@ class App extends React.Component {
         method : 'GET',
         headers : {
           'Content-Type': 'text/plain',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         }
       });
       const body = await res.json();

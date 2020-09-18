@@ -20,22 +20,26 @@ var userNotesData = [];
 app.use(cors());
 
 
-
-// a middleware with no mount path; gets executed for every request to the app
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', clientURL);
-  next();
-});
-
 app.get('/', function(req,res) {
   console.log('get react app');
-  if (req.secure){
+  if (req.secure) {
     res.sendFile(path.join(__dirname, '../build', 'index.html')); 
   }
   else {
     res.send('Hit URL with HTTPS and not HTTP');
   }
 });
+
+// a middleware with no mount path; gets executed for every request to the app
+app.use(function(req, res, next) {
+  if(req.xhr){
+    res.setHeader('Access-Control-Allow-Origin', clientURL);
+    next();
+  }
+  else res.send('Access Denied');  
+});
+
+
 
 app.use(session({
 	secret: 'st',
