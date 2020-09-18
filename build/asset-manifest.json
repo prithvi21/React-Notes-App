@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.185a78b1.chunk.css",
-    "main.js": "/static/js/main.ef1f8565.chunk.js",
+    "main.css": "/static/css/main.0245b123.chunk.css",
+    "main.js": "/static/js/main.57b9b62c.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.6ee577dc.js",
-    "static/js/2.c2a61a60.chunk.js": "/static/js/2.c2a61a60.chunk.js",
+    "static/js/2.0318a329.chunk.js": "/static/js/2.0318a329.chunk.js",
     "index.html": "/index.html",
-    "precache-manifest.3c305e0311aa3532199040869cf49658.js": "/precache-manifest.3c305e0311aa3532199040869cf49658.js",
+    "precache-manifest.942acd84592db8657022f0e6c545f910.js": "/precache-manifest.942acd84592db8657022f0e6c545f910.js",
     "service-worker.js": "/service-worker.js",
-    "static/js/2.c2a61a60.chunk.js.LICENSE.txt": "/static/js/2.c2a61a60.chunk.js.LICENSE.txt",
+    "static/js/2.0318a329.chunk.js.LICENSE.txt": "/static/js/2.0318a329.chunk.js.LICENSE.txt",
     "static/media/LoginPopup.css": "/static/media/close-img.934d0dba.png",
     "static/media/User.css": "/static/media/user-settings.0a60f83e.png"
   },
   "entrypoints": [
     "static/js/runtime-main.6ee577dc.js",
-    "static/js/2.c2a61a60.chunk.js",
-    "static/css/main.185a78b1.chunk.css",
-    "static/js/main.ef1f8565.chunk.js"
+    "static/js/2.0318a329.chunk.js",
+    "static/css/main.0245b123.chunk.css",
+    "static/js/main.57b9b62c.chunk.js"
   ]
 }

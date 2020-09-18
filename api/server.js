@@ -22,6 +22,7 @@ app.use(cors());
 
 app.get('/', function(req,res) {
   console.log('get react app');
+  console.log(req.headers['x-forwarded-proto']);
   if (req.headers['x-forwarded-proto'] == 'https') {
     res.sendFile(path.join(__dirname, '../build', 'index.html')); 
   }
@@ -181,5 +182,7 @@ app.get('/validateUsername', function(req,res) {
     res.send(err);
   })
 })
+
+
 
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));

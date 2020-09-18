@@ -166,8 +166,6 @@ class App extends React.Component {
   }
 
   handleEdit = (noteID) => {
-    const id = 'note-' + noteID;
-    const save_id = 'save-' + noteID;
     const a = this.state.noteEditable;
     a[noteID] = true;
     this.setState({
@@ -197,7 +195,6 @@ class App extends React.Component {
 
   saveAfterEdit = (noteID) => {
     const id = 'note-' + noteID;
-    const save_id = 'save-' + noteID;
     const a = this.state.noteEditable;
     a[noteID] = false;
     this.setState({
