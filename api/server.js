@@ -5,15 +5,15 @@ const session = require('express-session');
 const PORT = process.env.PORT || 5000; ;
 const cors = require('cors');
 const path = require('path');
-const clientURL = "https://reactnote-app.herokuapp.com";
-// const clientURL ="http://localhost:5000";
+const URL = "https://reactnote-app.herokuapp.com";
+// const URL ="http://localhost:5000";
 const db = require('./db.js');
 var md5 = require('md5');
 
 
 app.use(function(req, res, next) {
   if (req.headers['x-forwarded-proto'] === 'https') return next();
-  return res.send('Hit URL with HTTPS');
+  return res.redirect(URL);
 })
 
 app.use(express.static(path.join(__dirname, '../build')));
@@ -30,7 +30,7 @@ app.use(cors());
 // function requireHTTPS(req, res, next) {
 //   // The 'x-forwarded-proto' check is for Heroku
 //   if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
-//     return res.redirect(clientURL);
+//     return res.redirect(URL);
 //   }
 //   next();
 // }
@@ -47,7 +47,7 @@ app.get('/', function(req,res) {
 app.use(function(req, res, next) {
   console.log(req.protocol);
   if(req.xhr){
-    res.setHeader('Access-Control-Allow-Origin', clientURL);
+    res.setHeader('Access-Control-Allow-Origin', URL);
     next();
   }
   else res.send('Access Denied');  
