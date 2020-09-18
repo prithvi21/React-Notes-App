@@ -15,6 +15,7 @@ class App extends React.Component {
     this.URL = 'https://reactnote-app.herokuapp.com';
     this.refsList = React.createRef();
     this.refsList.current = [];
+    this.token = null;
     console.log(this.URL);
     this.state = {
       notesList : [],
@@ -73,7 +74,7 @@ class App extends React.Component {
         }
       )
       });
-      let body = await res.text();
+      let body = await res.json();
       console.log(body.token);
       this.getUsername();
     } else {
