@@ -20,7 +20,7 @@
   "scripts": {
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "react-start": "react-scripts start",
-    "start-prod": "cross-env NODE_ENV=production node api/server.js"
+    "start": "cross-env NODE_ENV=production node api/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
