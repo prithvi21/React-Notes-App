@@ -22,8 +22,8 @@ app.use(cors());
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  console.log(req.secure);
-  if (req.secure) {
+  console.log(req.protocol);
+  if (req.protocol === 'https') {
     res.sendFile(path.join(__dirname, '../build', 'index.html')); 
   }
   else {
@@ -34,6 +34,7 @@ app.get('/', function(req,res) {
 
 // a middleware with no mount path; gets executed for every request to the app
 app.use(function(req, res, next) {
+  console.log(req.protocol);
   if(req.xhr){
     res.setHeader('Access-Control-Allow-Origin', clientURL);
     next();
