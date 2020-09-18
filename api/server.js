@@ -135,7 +135,7 @@ app.post('/auth', async function(req,res) {
       userID   : req.session.ID,
       username : req.session.username,
       loggedIn : req.session.loggedIn,
-      token    : generateToken(req, req.session.username,req.session.ID)
+      token    : generateToken(req, req.session.username, req.session.ID)
     })
     res.send(userData);
   }, function(){
@@ -157,7 +157,7 @@ app.get('/auth', function(req, res) {
     userID   : req.session.ID,
     username : req.session.username,
     loggedIn : req.session.loggedIn,
-    token    : generateToken(req.session.username,req.session.ID)
+    token    : generateToken(req, req.session.username, req.session.ID)
   })
   res.send(userData);
 
