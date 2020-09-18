@@ -22,7 +22,7 @@ app.use(requireHTTPS);
 
 app.use(express.static(path.join(__dirname, '../build')));
 
-var userData;
+
 var userNotesData = [];
 app.use(cors());
 
@@ -59,7 +59,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-var userData=[];
 
 app.use((req, res, next) => {
   // Check if we've already initialised a session
@@ -69,6 +68,7 @@ app.use((req, res, next) => {
      req.session.loggedIn = false;
      req.session.username = null;
      req.session.ID = null;
+     req.session.token = null;
   }
   next();
 });
@@ -98,11 +98,18 @@ app.post('/api/notes/:id', function (req,res) {
 
 //Sends notes for display when user logs in
 app.get('/notes/:id', function(req,res) {
-  db.sendNotesToClient(req.params.id).then(function(notes){
-    res.send(notes);
-  }).catch(function(err) {
-    res.send(err);
-  })
+  console.log(req.headers.token);
+  console.log(cryptr.decrypt(req.headers.token));
+  if(cryptr.decrypt(req.headers.token) === req.session.token){
+    db.sendNotesToClient(req.params.id).then(function(notes){
+      res.send(notes);
+    }).catch(function(err) {
+      res.send(err);
+    })
+  }
+  else {
+    res.send('ACCESS DENIED');
+  }  
 })
 
 
@@ -124,7 +131,7 @@ app.post('/auth', async function(req,res) {
     req.session.username = username;
     res.status(200);
     // res.send('success');
-    userData = JSON.stringify({
+    const userData = JSON.stringify({
       userID   : req.session.ID,
       username : req.session.username,
       loggedIn : req.session.loggedIn,
@@ -146,7 +153,6 @@ app.post('/auth', async function(req,res) {
 });
 
 app.get('/auth', function(req, res) {
-  // res.send(userData);
   const userData = JSON.stringify({
     userID   : req.session.ID,
     username : req.session.username,
@@ -188,8 +194,9 @@ app.get('/validateUsername', function(req,res) {
 })
 
 function generateToken(username, userID){
-  const token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-  return cryptr.encrypt(token);
+  req.session.token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+  console.log('ok');
+  return cryptr.encrypt(req.session.token);
 }
 
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));
