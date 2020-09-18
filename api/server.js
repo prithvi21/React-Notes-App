@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 
 var userNotesData = [];
+var encryptedToken;
 app.use(cors());
 
 
@@ -157,7 +158,7 @@ app.get('/auth', function(req, res) {
     userID   : req.session.ID,
     username : req.session.username,
     loggedIn : req.session.loggedIn,
-    token    : cryptr.encrypt(req.session.token)
+    token    : encryptedToken
   })
   res.send(userData);
 
@@ -193,10 +194,11 @@ app.get('/validateUsername', function(req,res) {
   })
 })
 
-function generateToken(req,username, userID){
+function generateToken(req, username, userID){
   req.session.token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   console.log('ok');
-  return cryptr.encrypt(req.session.token);
+  encryptedToken = cryptr.encrypt(req.session.token);
+  return encryptedToken;
 }
 
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));
