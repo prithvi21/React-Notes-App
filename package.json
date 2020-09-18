@@ -17,6 +17,7 @@
     "react-scripts": "3.4.3"
   },
   "scripts": {
+    "build" : "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "react-start": "react-scripts start",
     "start": "node api/server.js"
   },
