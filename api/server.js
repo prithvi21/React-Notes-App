@@ -35,7 +35,7 @@ app.use(cors());
 app.get('/', function(req,res) {
   console.log('get react app');
   // res.sendFile(path.join(__dirname, '../build', 'index.html')); 
-  res.send(req.header['x-forwarded-proto']);
+  res.send(req.headers['x-forwarded-proto']);
 });
 
 // a middleware with no mount path; gets executed for every request to the app
