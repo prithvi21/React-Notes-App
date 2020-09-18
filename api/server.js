@@ -34,8 +34,8 @@ app.use(cors());
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  // res.sendFile(path.join(__dirname, '../build', 'index.html')); 
-  res.send(req.headers['x-forwarded-proto']);
+  if (req.headers['x-forwarded-proto'] === 'https') return res.sendFile(path.join(__dirname, '../build', 'index.html')); 
+  return res.send('Hit URL with HTTPS');
 });
 
 // a middleware with no mount path; gets executed for every request to the app
