@@ -40,7 +40,8 @@ class App extends React.Component {
     const res = await fetch(endpoint, {
       method : 'POST',
       headers : {
-        'Content-type' : 'application/json'
+        'Content-type' : 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
       },
       body : JSON.stringify({
         name      : this.state.name,
@@ -64,7 +65,7 @@ class App extends React.Component {
         method: 'POST',
         headers : {
           'Content-type' : 'application/json',
-          'APIKEY' : 'abc'
+          'X-Requested-With': 'XMLHttpRequest'
         },
         body : JSON.stringify({
           username  : this.state.username,
@@ -151,7 +152,10 @@ class App extends React.Component {
     // const noteKey = 'Notes for ID:' + userID;
     const res = await fetch(endpoint, {
       method : 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
       body : JSON.stringify({
         notes : this.state.notesList
       })
@@ -229,7 +233,10 @@ class App extends React.Component {
   handleLogout = async () => {
     const endpoint = this.URL + "/logout";
     const res = await fetch(endpoint, {
-      method : 'POST'
+      method : 'POST',
+      headers : {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     });
     if(res.status === 200)
      this.setState({
