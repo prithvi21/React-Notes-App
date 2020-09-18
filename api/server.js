@@ -22,12 +22,13 @@ app.use(cors());
 
 app.get('/', function(req,res) {
   console.log('get react app');
-  console.log(req.headers['x-forwarded-proto']);
-  if (req.headers['x-forwarded-proto'] == 'https') {
+  console.log(req.secure);
+  if (req.secure) {
     res.sendFile(path.join(__dirname, '../build', 'index.html')); 
   }
   else {
-    res.redirect(clientURL);
+    // res.redirect(clientURL);
+    res.send('Hit URL with HTTPS');
   }
 });
 
