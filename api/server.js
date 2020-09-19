@@ -115,7 +115,7 @@ app.get('/notes/:id', function(req,res) {
 })
 
 //Updating Notes
-app.post('/notes:/id', function(req,res) {
+app.post('/notes:/:id', function(req,res) {
   console.log('post request for note submission');
   const notes = req.body.notes;
   const notesArray = [];
