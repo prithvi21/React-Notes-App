@@ -25,7 +25,6 @@ app.use(express.static(path.join(__dirname, '../build')));
 
 
 var userNotesData = [];
-var encryptedToken;
 app.use(cors());
 
 
@@ -77,26 +76,26 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/api/notes/:id', function(req,res){
-  res.send(userNotesData[req.params.id]);
-})
+// app.get('/api/notes/:id', function(req,res){
+//   res.send(userNotesData[req.params.id]);
+// })
 
 // Handles updating notes
-app.post('/api/notes/:id', function (req,res) {
-  console.log('post request for note submission');
-  const notes = req.body.notes;
-  const notesArray = [];
-  while(notes.length) notesArray.push(notes.splice(0,1));
-  db.insertNotes(req.params.id, notesArray).then(function(result){
-    // console.log(result);
-  userNotesData[req.params.id] = notesArray;
-  console.log(userNotesData[req.params.id]);
-  res.send(userNotesData);
-  }).catch(function(result){
-    console.log(result);
-    res.send('error');
-  })
-});
+// app.post('/api/notes/:id', function (req,res) {
+//   console.log('post request for note submission');
+//   const notes = req.body.notes;
+//   const notesArray = [];
+//   while(notes.length) notesArray.push(notes.splice(0,1));
+//   db.insertNotes(req.params.id, notesArray).then(function(result){
+//     // console.log(result);
+//   userNotesData[req.params.id] = notesArray;
+//   console.log(userNotesData[req.params.id]);
+//   res.send(userNotesData);
+//   }).catch(function(result){
+//     console.log(result);
+//     res.send('error');
+//   })
+// });
 
 
 //Sends notes for display when user logs in
@@ -113,6 +112,20 @@ app.get('/notes/:id', function(req,res) {
   else {
     res.send('ACCESS DENIED');
   }  
+})
+
+//Updating Notes
+app.post('/notes:/id', function(req,res) {
+  console.log('post request for note submission');
+  const notes = req.body.notes;
+  const notesArray = [];
+  while(notes.length) notesArray.push(notes.splice(0,1));
+  if(cryptr.decrypt(req.headers.token) === req.session.token){
+    db.insertNotes(req.params.id,notesArray).then( () => {
+      res.status(200).send();
+    }).catch( err => res.status(200).send(err));
+  } 
+  else res.send('ACCESS DENIED');
 })
 
 
@@ -199,8 +212,6 @@ app.get('/validateUsername', function(req,res) {
 function generateToken(req, username, userID){
   req.session.token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   console.log('ok');
-  // encryptedToken = cryptr.encrypt(req.session.token);
-  // return encryptedToken;
   req.session.encryptedToken = cryptr.encrypt(req.session.token);
   return req.session.encryptedToken;
 }
