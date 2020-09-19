@@ -120,12 +120,13 @@ app.post('/notes:/:id', function(req,res) {
   const notes = req.body.notes;
   const notesArray = [];
   while(notes.length) notesArray.push(notes.splice(0,1));
-  if(cryptr.decrypt(req.headers.token) === req.session.token){
-    db.insertNotes(req.params.id,notesArray).then( () => {
-      res.status(200).send();
-    }).catch( err => res.status(200).send(err));
-  } 
-  else res.send('ACCESS DENIED');
+  // if(cryptr.decrypt(req.headers.token) === req.session.token){
+  //   db.insertNotes(req.params.id, notesArray).then( () => {
+  //     res.status(200).send();
+  //   }).catch( err => res.status(200).send(err));
+  // } 
+  // else res.send('ACCESS DENIED');
+  res.send('test');
 })
 
 
