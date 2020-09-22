@@ -76,28 +76,6 @@ app.use((req, res, next) => {
 });
 
 
-// app.get('/api/notes/:id', function(req,res){
-//   res.send(userNotesData[req.params.id]);
-// })
-
-// Handles updating notes
-// app.post('/api/notes/:id', function (req,res) {
-//   console.log('post request for note submission');
-//   const notes = req.body.notes;
-//   const notesArray = [];
-//   while(notes.length) notesArray.push(notes.splice(0,1));
-//   db.insertNotes(req.params.id, notesArray).then(function(result){
-//     // console.log(result);
-//   userNotesData[req.params.id] = notesArray;
-//   console.log(userNotesData[req.params.id]);
-//   res.send(userNotesData);
-//   }).catch(function(result){
-//     console.log(result);
-//     res.send('error');
-//   })
-// });
-
-
 //Sends notes for display when user logs in
 app.get('/notes/:id', function(req,res) {
   console.log(req.headers.token);

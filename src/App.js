@@ -150,9 +150,7 @@ class App extends React.Component {
 
   updateDatabase = async () => {
     const userID = this.state.userID;
-    // const endpoint = `${this.URL}/api/notes/${userID}`;
     const endpoint = `${this.URL}/notes/${userID}`;
-    // const noteKey = 'Notes for ID:' + userID;
     const res = await fetch(endpoint, {
       method : 'POST',
       headers: {

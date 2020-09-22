@@ -1,15 +1,19 @@
 .login {
   position:absolute;
-  top:10px;
-  right:10px;
+  /* top:10px;
+  right:10px; */
+  top : 1em;
+  right : 1em;
 
 }
 
 .login-button {
   background-color : #f1c40f;
-  padding : 15px;
+  /* padding : 15px; */
+  padding : 0.5em;
   font-family : Franklin Gothic Medium;
-  font-size: 20px;
+  /* font-size: 20px; */
+  font-size: 1.5em;
   border: 2px solid black;
 
 }
