@@ -5,8 +5,9 @@ const session = require('express-session');
 const PORT = process.env.PORT || 5000; ;
 const cors = require('cors');
 const path = require('path');
-const URL = "https://reactnote-app.herokuapp.com";
-// const URL ="http://localhost:5000";
+// // const URL = "https://reactnote-app.herokuapp.com"; //production
+// const URL ="http://localhost:5000"; // dev
+var URL;
 const db = require('./db.js');
 var md5 = require('md5');
 const Cryptr = require('cryptr');
@@ -19,12 +20,16 @@ function requireHTTPS(req, res, next) {
   return res.redirect(URL);
 }
 
-app.use(requireHTTPS);
+// app.use(requireHTTPS);
+
+if (process.env.NODE_ENV === 'production') {
+  URL = "https://reactnote-app.herokuapp.com"; 
+  app.use(requireHTTPS);
+} else URL ="http://localhost:5000";
 
 app.use(express.static(path.join(__dirname, '../build')));
 
 
-var userNotesData = [];
 app.use(cors());
 
 
@@ -69,8 +74,6 @@ app.use((req, res, next) => {
      req.session.loggedIn = false;
      req.session.username = null;
      req.session.ID = null;
-     req.session.token = null;
-     req.session.encryptedToken = null;
   }
   next();
 });
@@ -78,18 +81,11 @@ app.use((req, res, next) => {
 
 //Sends notes for display when user logs in
 app.get('/notes/:id', function(req,res) {
-  console.log(req.headers.token);
-  console.log(cryptr.decrypt(req.headers.token));
-  if(cryptr.decrypt(req.headers.token) === req.session.token){
-    db.sendNotesToClient(req.params.id).then(function(notes){
-      res.send(notes);
-    }).catch(function(err) {
-      res.send(err);
-    })
-  }
-  else {
-    res.send('ACCESS DENIED');
-  }  
+  db.sendNotesToClient(req.params.id).then(function(notes){
+  res.send(notes);
+  }).catch(function(err) {
+  res.send(err);
+  }) 
 })
 
 //Updating Notes
@@ -98,63 +94,42 @@ app.post('/notes/:id', function(req,res) {
   const notes = req.body.notes;
   const notesArray = [];
   while(notes.length) notesArray.push(notes.splice(0,1));
-  if(cryptr.decrypt(req.headers.token) === req.session.token){
-    db.insertNotes(req.params.id, notesArray).then( () => {
-      res.status(200).send();
-    }).catch( err => res.status(200).send(err));
-  } 
-  else res.send('ACCESS DENIED');
+  db.insertNotes(req.params.id, notesArray).then( () => {
+    res.status(200).send();
+  }).catch( err => res.status(200).send(err));
+  
 })
 
 
 app.post('/auth', async function(req,res) {
-  const username = req.body.username;
-  const password = md5(req.body.password);
-
-
-  db.validateUser(username, password).then(async function(){
-    let fetchID = await db.getIDFromUsername(username).then(function(result){
+  // verify auth credentials
+  const base64Credentials =  req.headers.authorization.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+  const [username, password] = credentials.split(':');
+  // const username = req.body.username;
+  // const password = md5(req.body.password);
+  db.validateUser(username, md5(password)).then(async function() {
+    let fetchID = await db.getIDFromUsername(username).then((result) => {
       return result;
-    },function(err){
+    }).catch(err => {
       return err;
-    });
-    
-    console.log('success');
+    })
     req.session.ID = fetchID;
     req.session.loggedIn = true;
     req.session.username = username;
-    res.status(200);
-    // res.send('success');
-    const userData = JSON.stringify({
-      userID   : req.session.ID,
-      username : req.session.username,
-      loggedIn : req.session.loggedIn,
-      token    : generateToken(req, req.session.username, req.session.ID)
-    })
-    res.send(userData);
-  }, function(){
-       console.log('incorrect password');
-       req.session.loggedIn = false;
-      //  res.status(400);
-       userData = JSON.stringify({
-        userID   : req.session.ID,
-        username : req.session.username,
-        loggedIn : req.session.loggedIn
-      })
-      res.send(userData);
-  })
- 
-});
+    res.status(200).send();
+  }).catch(err => {
+    return err;
+  });  
+})
 
 app.get('/auth', function(req, res) {
   const userData = JSON.stringify({
     userID   : req.session.ID,
     username : req.session.username,
     loggedIn : req.session.loggedIn,
-    token    : req.session.encryptedToken
   })
   res.send(userData);
-
 })
 
 app.post('/logout', function(req, res) {
@@ -186,12 +161,5 @@ app.get('/validateUsername', function(req,res) {
     res.send(err);
   })
 })
-
-function generateToken(req, username, userID){
-  req.session.token = username + userID + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-  console.log('ok');
-  req.session.encryptedToken = cryptr.encrypt(req.session.token);
-  return req.session.encryptedToken;
-}
 
 app.listen(PORT,  () => console.log(`server running on port ${PORT}`));

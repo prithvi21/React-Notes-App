@@ -11,11 +11,12 @@ import User from './components/User';
 class App extends React.Component {
 
   constructor(props){
+    console.log(process.env.REACT_APP_STAGE);
     super(props);
-    this.URL = 'https://reactnote-app.herokuapp.com';
+    if (process.env.REACT_APP_STAGE === 'development') this.URL = 'http://localhost:5000';
+    else this.URL = 'https://reactnote-app.herokuapp.com';
     this.refsList = React.createRef();
     this.refsList.current = [];
-    this.token = null;
     console.log(this.URL);
     this.state = {
       notesList : [],
@@ -32,8 +33,6 @@ class App extends React.Component {
       currentNote : null
     };
   }
-
-  
 
   createUserRequest = async () => {
     console.log('create');
@@ -66,7 +65,8 @@ class App extends React.Component {
         method: 'POST',
         headers : {
           'Content-type' : 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization' : 'Basic ' + window.btoa(this.state.username + ':' + this.state.password)
         },
         body : JSON.stringify({
           username  : this.state.username,
@@ -74,9 +74,7 @@ class App extends React.Component {
         }
       )
       });
-      let body = await res.json();
-      console.log(body.token);
-      this.token = body.token;
+      // let body = await res.json();
       this.getUsername();
     } else {
         this.createUserRequest();
@@ -155,8 +153,7 @@ class App extends React.Component {
       method : 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'token' : this.token
+        'X-Requested-With': 'XMLHttpRequest'
       },
       body : JSON.stringify({
         notes : this.state.notesList
@@ -256,8 +253,7 @@ class App extends React.Component {
       headers: { 
         'Content-Type': 'text/plain',
         'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'token' : this.token
+        'X-Requested-With': 'XMLHttpRequest'
      }
     })
     const body = await res.json();

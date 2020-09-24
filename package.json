@@ -19,8 +19,10 @@
   },
   "scripts": {
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "build-dev" : "cross-env REACT_APP_STAGE='development' react-scripts build",
     "react-start": "react-scripts start",
-    "start": "node api/server.js"
+    "start": "cross-env NODE_ENV=production node api/server.js",
+    "start-dev" : "npm run build-dev && cross-env NODE_ENV=development node api/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
