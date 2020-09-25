@@ -14,7 +14,9 @@ class App extends React.Component {
     console.log(process.env.REACT_APP_STAGE);
     super(props);
     if (process.env.REACT_APP_STAGE === 'development') this.URL = 'http://localhost:5000';
-    else this.URL = 'https://reactnote-app.herokuapp.com';
+    else {
+      this.URL = 'https://reactnote-app.herokuapp.com';
+    } 
     this.refsList = React.createRef();
     this.refsList.current = [];
     console.log(this.URL);
@@ -41,7 +43,7 @@ class App extends React.Component {
       method : 'POST',
       headers : {
         'Content-type' : 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
       },
       body : JSON.stringify({
         name      : this.state.name,
@@ -67,12 +69,12 @@ class App extends React.Component {
           'Content-type' : 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
           'Authorization' : 'Basic ' + window.btoa(this.state.username + ':' + this.state.password)
-        },
+        }/*,
         body : JSON.stringify({
           username  : this.state.username,
           password  : this.state.password
         }
-      )
+      )*/
       });
       // let body = await res.json();
       this.getUsername();
@@ -270,6 +272,7 @@ class App extends React.Component {
    * CHECK IF USERNAME IS AVAILABLE WHEN SIGNING UP
    */
   validateUsername =  async () => {
+    console.log('line 273');
     if(this.state.signup) {
       const endpoint = `${this.URL}/validateUsername`;
       const res = await fetch(endpoint, {
@@ -292,7 +295,7 @@ class App extends React.Component {
   }
 
 
-  handleChange = async event => {
+  handleChange = event => {
     console.log(event.target.name);
     /**
      * event.target.name is either name, username,password or currentNote

@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+/**
+ * Disable console.log in production mode
+ */
+if (process.env.NODE_ENV !== "development")
+    console.log = () => {};
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

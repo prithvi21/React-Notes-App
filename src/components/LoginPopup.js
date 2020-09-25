@@ -2,21 +2,25 @@ import React from 'react';
 import '../css/LoginPopup.css';
 
 export default class LoginPopup extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      usernameTaken : false
+    }
+  }
   
-  // validate =  async () => {
-  //   const bool =  await this.props.validateUsername().then(res => {
-  //     return res;
-  //   });
-  //   console.log(bool);
-  //   if(bool){
-  //     document.getElementsByClassName('validation-message')[0].textContent = 'Username taken';
-  //     document.getElementsByClassName('login-submit')[0].style.opacity = 0.5;
-  //   }  else {
-  //       document.getElementsByClassName('validation-message')[0].textContent = '';
-  //     } 
-  //   //Button disabled until valid username  
-  //   document.getElementsByClassName('login-submit')[0].disabled = bool;  
-  // }
+  validate =  async () => {
+    if (this.props.isSignup) {
+      const usernameTaken =  await this.props.validateUsername().then(res => {
+        return res;
+      });
+      console.log(usernameTaken);
+      this.setState({
+        usernameTaken : usernameTaken
+      })
+    }
+  }
 
   render(){
     let buttonName;
@@ -26,14 +30,15 @@ export default class LoginPopup extends React.Component {
     else {
       buttonName = "LOGIN";
     } 
-    const name = <input type="text" id="name" name="name" placeholder="Enter your name" onChange={this.props.handleChange} />
+    const name = <input type="text" id="name" name="name" placeholder="Enter your name" onChange={this.props.handleChange} required />
 
-    const username = <input type="text" name="username" placeholder="ENTER USERNAME" onChange={this.props.handleChange}
-     ref={this.props.usernameRef}/>
+    const username = <input type="text" name="username" placeholder="ENTER USERNAME" 
+    onChange={e => { this.props.handleChange(e); this.validate() } } ref={this.props.usernameRef} required/>
 
-    const password = <input type="password" name="password" placeholder="ENTER PASSWORD" onChange={this.props.handleChange} />
+    const password = <input type="password" name="password" placeholder="ENTER PASSWORD" onChange={this.props.handleChange} required />
 
-    const loginButton = <button type="submit" className="login-submit" onClick={this.props.loginRequest}>{buttonName}</button>;
+    const loginButton = <button type="submit" className="login-submit"
+     onClick={!this.state.usernameTaken ? this.props.loginRequest : null}> {buttonName} </button>;
 
     const closePopup = <button type="text" className="close-button"
       onClick={this.props.handlePopup}></button>;
@@ -46,7 +51,7 @@ export default class LoginPopup extends React.Component {
         {this.props.isSignup && name}  
         <br /><br />
         {username}
-        <p className="validation-message"></p>
+        <p className="validation-message">{this.state.usernameTaken ? 'Username Taken' : ''}</p>
         {password}
         <br /><br />
         {loginButton}

@@ -5,13 +5,9 @@ const session = require('express-session');
 const PORT = process.env.PORT || 5000; ;
 const cors = require('cors');
 const path = require('path');
-// // const URL = "https://reactnote-app.herokuapp.com"; //production
-// const URL ="http://localhost:5000"; // dev
-var URL;
 const db = require('./db.js');
 var md5 = require('md5');
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('gibberish');
+
 
 console.log(process.env.NODE_ENV);
 
@@ -21,7 +17,7 @@ function requireHTTPS(req, res, next) {
 }
 
 // app.use(requireHTTPS);
-
+var URL;
 if (process.env.NODE_ENV === 'production') {
   URL = "https://reactnote-app.herokuapp.com"; 
   app.use(requireHTTPS);
@@ -33,7 +29,7 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.use(cors());
 
 
-app.get('/', function(req,res) {
+app.get('/', function(req, res) {
   console.log('get react app');
   return res.sendFile(path.join(__dirname, '../build', 'index.html')); 
 });
@@ -85,7 +81,7 @@ app.get('/notes/:id', function(req,res) {
   res.send(notes);
   }).catch(function(err) {
   res.send(err);
-  }) 
+  })
 })
 
 //Updating Notes
@@ -117,9 +113,9 @@ app.post('/auth', async function(req,res) {
     req.session.ID = fetchID;
     req.session.loggedIn = true;
     req.session.username = username;
-    res.status(200).send();
+    res.status(200).send('Authenticated');
   }).catch(err => {
-    return err;
+    res.status(200).send(err);
   });  
 })
 
