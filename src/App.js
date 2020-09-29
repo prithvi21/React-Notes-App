@@ -34,6 +34,7 @@ class App extends React.Component {
       userID : null,
       currentNote : null
     };
+    this.currentSession();
   }
 
   createUserRequest = async () => {
@@ -176,9 +177,6 @@ class App extends React.Component {
 
 
   handleDelete = (noteID) => {
-    const id = 'display-' + noteID;
-    console.log(id);
-
     //delete the note and update state
     const newNotesList = this.state.notesList;
     newNotesList.splice(noteID,1);
@@ -195,7 +193,6 @@ class App extends React.Component {
   }
 
   saveAfterEdit = (noteID) => {
-    const id = 'note-' + noteID;
     const a = this.state.noteEditable;
     a[noteID] = false;
     this.setState({
@@ -203,10 +200,7 @@ class App extends React.Component {
     })
     //replacing the note with the edited note and updating state
     const newNotesList = this.state.notesList;
-    // const newNote = document.getElementById(id).textContent; // working but not ideal
     const newNote = this.refsList.current[noteID].innerText;
-    console.log(this.state.currentNote);
-    console.log(id);
     console.log(newNote);
     newNotesList.splice(noteID,1,newNote);
     console.log('after edit:'+newNotesList.toString());
@@ -263,9 +257,10 @@ class App extends React.Component {
     for(let i=0; i < body.length; i++){
       newNotesList.push(body[i].note);
     }
-    this.setState({
-      notesList : newNotesList
-    })
+    if (this.state.loggedIn)
+      this.setState({
+        notesList : newNotesList
+      })
   }
 
   /**
@@ -310,6 +305,32 @@ class App extends React.Component {
     this.setState({
       showInputBox : false
     });
+  }
+  
+  /**
+   * Check if current session still active
+   */
+  currentSession = async () => {
+    console.log('render');
+    const endpoint = `${this.URL}/currentSession`;
+    const res = await fetch(endpoint, {
+      method : 'GET',
+      headers : {
+        'Content-Type': 'text/plain',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+    const body = await res.json();
+    if (body.loggedIn){
+      this.setState({
+        loggedIn : body.loggedIn,
+        userID :   body.ID
+      },this.getNotes)
+    };
+    // console.log(body.loggedIn);
+    // console.log(body.username);
+
   }
 
   

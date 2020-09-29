@@ -15,7 +15,6 @@ export default class LoginPopup extends React.Component {
       const usernameTaken =  await this.props.validateUsername().then(res => {
         return res;
       });
-      console.log(usernameTaken);
       this.setState({
         usernameTaken : usernameTaken
       })
@@ -51,7 +50,7 @@ export default class LoginPopup extends React.Component {
         {this.props.isSignup && name}  
         <br /><br />
         {username}
-        <p className="validation-message">{this.state.usernameTaken ? 'Username Taken' : ''}</p>
+        <p className = "validation-message">{ this.state.usernameTaken ? 'Username Taken' : '' }</p>
         {password}
         <br /><br />
         {loginButton}
@@ -63,7 +62,7 @@ export default class LoginPopup extends React.Component {
     
     return (this.props.showPopup) 
     ?(
-      <div className="login-popup">
+      <div className = "login-popup">
         {popup}
       </div>
     ) :  (null); 
